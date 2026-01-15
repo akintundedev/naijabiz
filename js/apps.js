@@ -137,34 +137,35 @@ if (exploreGrid) {
     refreshTikTok();
 }
 
-// ==========================================
-// 5. BULLETPROOF REGISTRATION LOGIC
-// ==========================================
-const businessForm = document.getElementById('businessForm');
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("App.js Loaded. Checking for forms...");
 
-if (businessForm) {
-    console.log("Form detected. Waiting for submit...");
+    // ==========================================
+    // 1. REGISTRATION LOGIC
+    // ==========================================
+    const businessForm = document.getElementById('businessForm');
 
-    businessForm.addEventListener('submit', function(e) {
-        // 1. STOP the form from reloading the page immediately
-        e.preventDefault();
-        console.log("Submit button clicked!");
+    if (businessForm) {
+        console.log("✅ Registration Form Detected!");
 
-        try {
-            // 2. Grab all the data
+        businessForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // STOP page refresh
+            console.log("🚀 Submit button clicked!");
+
+            // Grab values
             const name = document.getElementById('bizName').value;
             const category = document.getElementById('category').value;
             const description = document.getElementById('description').value;
             const whatsapp = document.getElementById('whatsapp').value;
             const tiktokUrl = document.getElementById('tiktokUrl').value;
 
-            // 3. Fix the Video ID
-            let videoId = '7106869400236084526';
-            if (tiktokUrl.includes('/video/')) {
-                videoId = tiktokUrl.split('/video/')[1].split('?')[0];
+            // Simple validation
+            if(!name || !whatsapp) {
+                alert("Please fill in all details.");
+                return;
             }
 
-            // 4. Create the User Object
+            // Create Business Object
             const newBiz = {
                 id: Date.now(),
                 name: name,
@@ -172,32 +173,59 @@ if (businessForm) {
                 description: description,
                 whatsapp: whatsapp,
                 tiktokUrl: tiktokUrl,
-                videoId: videoId,
                 rating: 5.0,
                 sales: 0,
-                isVerified: false, 
+                isVerified: false,
                 dateJoined: Date.now()
             };
 
-            // 5. Save to "Database" (List of all businesses)
+            // Save to LocalStorage
             const allBiz = JSON.parse(localStorage.getItem('businesses')) || [];
             allBiz.push(newBiz);
             localStorage.setItem('businesses', JSON.stringify(allBiz));
 
-            // 6. Save to "Session" (Who is logged in RIGHT NOW)
-            // This is the critical step for the dashboard to work!
+            // Save Active Session
             localStorage.setItem('loggedInUser', JSON.stringify(newBiz));
 
-            // 7. Success & Redirect
-            alert("Profile Created Successfully! Click OK to enter Dashboard.");
+            // Success & Redirect
+            alert("Registration Successful! Redirecting...");
             window.location.href = 'dashboard.html';
+        });
+    } else {
+        console.log("❌ No Registration form found on this page (This is normal if you are not on register.html)");
+    }
 
-        } catch (error) {
-            console.error("Registration Error:", error);
-            alert("Something went wrong: " + error.message);
+    // ==========================================
+    // 2. DASHBOARD LOGIC
+    // ==========================================
+    const dashboardContainer = document.querySelector('.dashboard-container');
+    if (dashboardContainer) {
+        console.log("✅ Dashboard Detected!");
+        const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (!currentUser) {
+            console.log("⛔ No user logged in. Redirecting to register.");
+            window.location.href = 'register.html';
+        } else {
+            console.log("👤 User found:", currentUser.name);
+            // Update UI
+            if(document.getElementById('navBizName')) document.getElementById('navBizName').textContent = currentUser.name;
+            if(document.getElementById('welcomeMessage')) document.getElementById('welcomeMessage').textContent = `Welcome, ${currentUser.name}`;
+            if(document.getElementById('displayBizName')) document.getElementById('displayBizName').textContent = currentUser.name;
+            if(document.getElementById('displayCategory')) document.getElementById('displayCategory').textContent = currentUser.category;
+            if(document.getElementById('displayDesc')) document.getElementById('displayDesc').textContent = currentUser.description;
+            
+            // Logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('loggedInUser');
+                    window.location.href = '../index.html';
+                });
+            }
         }
-    });
-}
+    }
+});
 
 // ==========================================
 // 6. DASHBOARD LOGIC
