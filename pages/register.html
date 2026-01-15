@@ -7,8 +7,7 @@
     
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/forms.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,73 +15,71 @@
         <div class="container nav-flex">
             <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
             <ul class="nav-links">
-                <li><a href="explore.html">Explore Vendors</a></li>
-                <li><a href="register.html" class="active btn-primary">Register Business</a></li>
+                <li><a href="login.html" class="btn-primary" style="background:transparent; border:1px solid #ccc; color:#000;">Login</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="form-container">
+    <div class="form-container" style="margin-top: 40px; margin-bottom: 80px;">
         <div class="form-header">
-            <h2>Join the Directory</h2>
-            <p>Get verified, get seen, and get customers.</p>
+            <h2>Create Account</h2>
+            <p>Join the directory and start selling.</p>
         </div>
 
         <form id="businessForm">
-    
-    <div class="form-group">
-        <label>Business Name</label>
-        <input type="text" id="bizName" required>
-    </div>
-
-    <button type="submit" class="btn-submit">Create Profile</button>
-</form>
-
-<script src="../js/app.js"></script>
-</body>
+            <div class="form-group">
+                <label>Business Name (Used for Login)</label>
+                <input type="text" id="bizName" placeholder="e.g. Tunmise Wears" required>
+            </div>
 
             <div class="form-group">
-                <label for="category">Category</label>
+                <label>Create Password</label>
+                <input type="password" id="bizPassword" placeholder="******" required>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
                 <select id="category" required>
                     <option value="" disabled selected>Select a category</option>
                     <option value="Fashion">Fashion & Wears</option>
                     <option value="Food">Food & Catering</option>
                     <option value="Tech">Gadgets & Tech</option>
-                    <option value="Services">Services (Plumbing, Mechanics, etc)</option>
+                    <option value="Services">Services</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="description">Short Description</label>
-                <textarea id="description" rows="3" placeholder="What do you sell? (Max 100 chars)" maxlength="100" required></textarea>
+                <label>Short Description</label>
+                <textarea id="description" rows="3" placeholder="What do you sell?" required></textarea>
             </div>
 
             <div class="form-group">
-                <label for="whatsapp">WhatsApp Number</label>
+                <label>WhatsApp Number</label>
                 <div class="input-wrapper">
                     <span class="prefix">+234</span>
                     <input type="tel" id="whatsapp" placeholder="8123456789" required>
                 </div>
-                <small>Buyers will click this to chat with you directly.</small>
             </div>
 
             <div class="form-group">
-                <label for="tiktokUrl">TikTok Video Link</label>
+                <label>TikTok Video Link</label>
                 <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@user/video/..." required>
-                <small>Paste the link to your best product video.</small>
             </div>
 
             <button type="submit" class="btn-submit">Create Profile</button>
+            
+            <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
+                Already have an account? <a href="login.html" style="color:var(--primary-color); font-weight:bold;">Login here</a>
+            </p>
         </form>
     </div>
-<footer class="main-footer">
+
+    <footer class="main-footer">
         <div class="container footer-grid">
-            
             <div class="footer-col">
                 <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
                 <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
             </div>
-
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul>
@@ -92,7 +89,6 @@
                     <li><a href="dashboard.html">My Dashboard</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Support</h4>
                 <ul>
@@ -102,7 +98,6 @@
                     <li><a href="terms.html">Terms of Service</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Follow Us</h4>
                 <div class="social-links">
@@ -112,10 +107,58 @@
                 </div>
                 <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
             </div>
-
         </div>
     </footer>
-    <script src="../js/app.js"></script>
 
+    <script>
+        console.log("REGISTER SCRIPT ACTIVE");
+        
+        document.getElementById('businessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('bizName').value.trim();
+            const password = document.getElementById('bizPassword').value.trim();
+            const category = document.getElementById('category').value;
+            const desc = document.getElementById('description').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const tiktok = document.getElementById('tiktokUrl').value;
+
+            if(!name || !password || !whatsapp) { alert("Please fill all fields"); return; }
+
+            // Check duplicate
+            const allBiz = JSON.parse(localStorage.getItem('businesses')) || [];
+            const exists = allBiz.find(b => b.name.toLowerCase() === name.toLowerCase());
+            if(exists) {
+                alert("This Business Name is taken. Try logging in.");
+                return;
+            }
+
+            // Video ID Logic
+            let videoId = '7106869400236084526';
+            if (tiktok.includes('/video/')) { try { videoId = tiktok.split('/video/')[1].split('?')[0]; } catch(e){} }
+
+            const newBiz = {
+                id: Date.now(),
+                name: name,
+                password: password, // Saving Password
+                category: category,
+                description: desc,
+                whatsapp: whatsapp,
+                tiktokUrl: tiktok,
+                videoId: videoId,
+                rating: 5.0,
+                sales: 0,
+                isVerified: false,
+                dateJoined: Date.now()
+            };
+
+            allBiz.push(newBiz);
+            localStorage.setItem('businesses', JSON.stringify(allBiz));
+            localStorage.setItem('loggedInUser', JSON.stringify(newBiz));
+
+            alert("Account Created! Redirecting...");
+            window.location.href = 'dashboard.html';
+        });
+    </script>
 </body>
 </html>

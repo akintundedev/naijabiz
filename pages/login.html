@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | NaijaBiz Directory</title>
+    
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
+            <ul class="nav-links">
+                <li><a href="register.html" class="btn-primary">Register Business</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container" style="margin-top: 80px; margin-bottom: 80px;">
+        <div class="form-header">
+            <h2>Welcome Back</h2>
+            <p>Login to manage your business.</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Business Name</label>
+                <input type="text" id="loginName" placeholder="Enter your business name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="******" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Login</button>
+            
+            <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
+                New here? <a href="register.html" style="color:var(--primary-color); font-weight:bold;">Create an Account</a>
+            </p>
+        </form>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="explore.html">Explore Market</a></li>
+                    <li><a href="register.html">Register Business</a></li>
+                    <li><a href="dashboard.html">My Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="safety.html">Safety Tips</a></li>
+                    <li><a href="report.html">Report a Vendor</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">TikTok</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        console.log("LOGIN SCRIPT ACTIVE");
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nameInput = document.getElementById('loginName').value.trim();
+            const passInput = document.getElementById('loginPassword').value.trim();
+
+            // 1. Get all businesses from database
+            const allBiz = JSON.parse(localStorage.getItem('businesses')) || [];
+
+            // 2. Find the user (Case-insensitive name check)
+            const user = allBiz.find(b => 
+                b.name.toLowerCase() === nameInput.toLowerCase() && 
+                b.password === passInput
+            );
+
+            // 3. Validate
+            if (user) {
+                // SUCCESS: Save user session
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                alert("Login Successful! Redirecting...");
+                window.location.href = 'dashboard.html';
+            } else {
+                // FAIL
+                alert("Invalid Business Name or Password. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
