@@ -1,0 +1,389 @@
+/* --- 1. VARIABLES --- */
+:root {
+    --primary-color: #008751; /* Classic Nigeria Green */
+    --primary-dark: #006039;
+    --accent-color: #FFD700;  /* Gold */
+    --dark-bg: #0f172a;       /* Deep Navy/Black for footer */
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+    
+    /* Fonts */
+    --font-head: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* --- 2. GLOBAL RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .logo {
+    font-family: var(--font-head);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- 3. NAVBAR --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.nav-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -1px;
+}
+
+.logo .highlight { color: var(--primary-color); }
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-links a:not(.btn-primary) {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.nav-links a:not(.btn-primary):hover {
+    color: var(--primary-color);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0, 135, 81, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 135, 81, 0.35);
+}
+
+/* --- 4. HERO SECTION --- */
+.hero {
+    background: url('https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    color: var(--white);
+    text-align: center;
+}
+
+/* Dark Overlay */
+.hero-overlay {
+    background: linear-gradient(135deg, rgba(0,20,10,0.85) 0%, rgba(0,60,30,0.7) 100%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero-badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    margin-bottom: 2.5rem;
+}
+
+/* Search Box */
+.search-box-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 60px;
+    backdrop-filter: blur(5px);
+    display: inline-block;
+    width: 100%;
+}
+
+.search-box {
+    background: var(--white);
+    padding: 5px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 15px 25px;
+    font-size: 1rem;
+    border-radius: 50px;
+}
+
+.btn-search {
+    background-color: var(--text-dark);
+    color: var(--white);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-search:hover { background-color: #000; }
+
+.trust-signals {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+}
+
+/* --- 5. STATS STRIP --- */
+.stats-strip {
+    background: var(--text-dark);
+    color: white;
+    padding: 40px 0;
+    margin-top: -5px; /* Removes tiny gap */
+}
+
+.stats-flex {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- 6. SECTIONS --- */
+.section-gap { padding: 80px 0; }
+
+.section-header {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.sub-text {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+.view-all-link {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Center aligned header variant */
+.section-header.center-text {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.header-line {
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    margin-top: 20px;
+    border-radius: 2px;
+}
+
+/* --- 7. HOW IT WORKS --- */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.step-card {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    transition: 0.3s;
+}
+
+.step-card:hover { transform: translateY(-10px); }
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+}
+
+.step-card h3 { margin-bottom: 10px; font-size: 1.2rem; }
+.step-card p { color: var(--text-gray); font-size: 0.95rem; }
+
+/* --- 8. CTA SECTION --- */
+.cta-section {
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-attachment: fixed; /* Parallax effect */
+    text-align: center;
+    color: white;
+    padding: 100px 0;
+    margin-top: 80px;
+}
+
+.cta-section h2 { font-size: 2.5rem; margin-bottom: 15px; }
+.cta-section p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
+
+.btn-cta {
+    background: var(--white);
+    color: var(--text-dark);
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.btn-cta:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* --- 9. FOOTER STYLING --- */
+.main-footer {
+    background-color: var(--dark-bg);
+    color: #94a3b8;
+    padding: 80px 0 40px 0;
+    margin-top: 0; /* Connected to content above */
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 50px;
+}
+
+.footer-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: white;
+    display: block;
+    margin-bottom: 20px;
+}
+.footer-logo .highlight { color: var(--primary-color); }
+
+.footer-col h4 { color: white; margin-bottom: 25px; font-size: 1.1rem; letter-spacing: 0.5px; }
+.footer-col ul li { margin-bottom: 12px; }
+.footer-col ul li a:hover { color: var(--primary-color); padding-left: 5px; }
+
+.social-links { display: flex; gap: 15px; margin-bottom: 25px; }
+.social-links a {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+.social-links a:hover { background: var(--primary-color); }
+
+.copyright {
+    border-top: 1px solid #334155;
+    padding-top: 30px;
+    margin-top: 30px;
+    font-size: 0.85rem;
+}

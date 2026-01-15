@@ -1,0 +1,108 @@
+/* Center the form on the page */
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h2 {
+    color: var(--text-dark); /* Uses variable from main.css */
+    margin-bottom: 10px;
+}
+
+.form-header p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+}
+
+/* Input Groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Inputs & Textareas */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+/* The Premium "Focus" Effect (Changes color when you click) */
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary-color); /* Green border */
+    outline: none;
+    background-color: #fbfbfb;
+}
+
+/* Special styling for the Phone Number area */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-color);
+}
+
+.input-wrapper .prefix {
+    background: #eee;
+    padding: 12px;
+    font-weight: bold;
+    color: #555;
+}
+
+.input-wrapper input {
+    border: none; /* Remove border since wrapper has it */
+    border-radius: 0;
+}
+
+/* Helper text (small instructions) */
+small {
+    display: block;
+    margin-top: 5px;
+    color: #888;
+    font-size: 0.8rem;
+}
+
+/* Submit Button */
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-dark);
+}

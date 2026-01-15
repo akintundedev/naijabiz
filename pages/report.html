@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Vendor | NaijaBiz</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2 style="color:#d32f2f;">Report a Violation</h2>
+            <p>Help us keep NaijaBiz safe. Reports are anonymous.</p>
+        </div>
+
+        <form action="https://formsubmit.co/akintundetunmise001@gmail.com" method="POST">
+            
+            <input type="hidden" name="_next" value="https://akintundetunmise.github.io/naijabiz/pages/explore.html">
+            <input type="hidden" name="_subject" value="New Vendor Report - NaijaBiz">
+            
+            <input type="hidden" name="_captcha" value="false">
+
+            <div class="form-group">
+                <label>Name of Business/Vendor</label>
+                <input type="text" name="Business Name" placeholder="e.g. Lagos Tech Hub" required>
+            </div>
+
+            <div class="form-group">
+                <label>Reason for Report</label>
+                <select name="Reason" required>
+                    <option value="" disabled selected>Select a reason</option>
+                    <option value="Scam">Scam / Fraud</option>
+                    <option value="Fake Products">Fake Products</option>
+                    <option value="Rude Behavior">Rude Behavior</option>
+                    <option value="Inappropriate Content">Inappropriate Content</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Details</label>
+                <textarea name="Details" rows="4" placeholder="Explain what happened..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" style="background-color: #d32f2f;">Submit Report</button>
+        </form>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            
+            <div class="footer-col">
+                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="explore.html">Explore Market</a></li>
+                    <li><a href="register.html">Register Business</a></li>
+                    <li><a href="dashboard.html">My Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="safety.html">Safety Tips</a></li>
+                    <li><a href="report.html">Report a Vendor</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">TikTok</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

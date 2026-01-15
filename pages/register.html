@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Business | NaijaBiz Directory</title>
+    
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/forms.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore Vendors</a></li>
+                <li><a href="register.html" class="active btn-primary">Register Business</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Join the Directory</h2>
+            <p>Get verified, get seen, and get customers.</p>
+        </div>
+
+        <form id="businessForm">
+            <div class="form-group">
+                <label for="bizName">Business Name</label>
+                <input type="text" id="bizName" placeholder="e.g. Tunmise Wears" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Fashion">Fashion & Wears</option>
+                    <option value="Food">Food & Catering</option>
+                    <option value="Tech">Gadgets & Tech</option>
+                    <option value="Services">Services (Plumbing, Mechanics, etc)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Short Description</label>
+                <textarea id="description" rows="3" placeholder="What do you sell? (Max 100 chars)" maxlength="100" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp">WhatsApp Number</label>
+                <div class="input-wrapper">
+                    <span class="prefix">+234</span>
+                    <input type="tel" id="whatsapp" placeholder="8123456789" required>
+                </div>
+                <small>Buyers will click this to chat with you directly.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="tiktokUrl">TikTok Video Link</label>
+                <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@user/video/..." required>
+                <small>Paste the link to your best product video.</small>
+            </div>
+
+            <button type="submit" class="btn-submit">Create Profile</button>
+        </form>
+    </div>
+<footer class="main-footer">
+        <div class="container footer-grid">
+            
+            <div class="footer-col">
+                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="explore.html">Explore Market</a></li>
+                    <li><a href="register.html">Register Business</a></li>
+                    <li><a href="dashboard.html">My Dashboard</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="safety.html">Safety Tips</a></li>
+                    <li><a href="report.html">Report a Vendor</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">TikTok</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+            </div>
+
+        </div>
+    </footer>
+    <script src="../js/app.js"></script>
+
+</body>
+</html>
