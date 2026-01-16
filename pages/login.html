@@ -31,14 +31,11 @@
                 <label>Business Name</label>
                 <input type="text" id="loginName" placeholder="Enter your business name" required>
             </div>
-
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" id="loginPassword" placeholder="******" required>
             </div>
-
-            <button type="submit" class="btn-submit">Login</button>
-            
+            <button type="submit" class="btn-submit" id="loginBtn">Login</button>
             <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
                 New here? <a href="register.html" style="color:var(--primary-color); font-weight:bold;">Create an Account</a>
             </p>
@@ -49,7 +46,7 @@
         <div class="container footer-grid">
             <div class="footer-col">
                 <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
-                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+                <p>The #1 trusted marketplace.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -65,7 +62,6 @@
                 <ul>
                     <li><a href="help.html">Help Center</a></li>
                     <li><a href="safety.html">Safety Tips</a></li>
-                    <li><a href="report.html">Report a Vendor</a></li>
                     <li><a href="terms.html">Terms of Service</a></li>
                 </ul>
             </div>
@@ -74,40 +70,60 @@
                 <div class="social-links">
                     <a href="#">TikTok</a>
                     <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
                 </div>
                 <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        console.log("LOGIN SCRIPT ACTIVE");
+    <script type="module">
+        import { db } from '../js/firebase-init.js';
+        import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        console.log("LOGIN PAGE: Cloud Active");
+
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            loginBtn.textContent = "Checking...";
+            loginBtn.disabled = true;
 
-            const nameInput = document.getElementById('loginName').value.trim();
-            const passInput = document.getElementById('loginPassword').value.trim();
+            const name = document.getElementById('loginName').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
 
-            // 1. Get all businesses from database
-            const allBiz = JSON.parse(localStorage.getItem('businesses')) || [];
+            try {
+                // Query Cloud Database for matching Name AND Password
+                const q = query(collection(db, "vendors"), 
+                    where("name", "==", name), 
+                    where("password", "==", password)
+                );
+                
+                const querySnapshot = await getDocs(q);
 
-            // 2. Find the user (Case-insensitive name check)
-            const user = allBiz.find(b => 
-                b.name.toLowerCase() === nameInput.toLowerCase() && 
-                b.password === passInput
-            );
+                if (!querySnapshot.empty) {
+                    // Success!
+                    const doc = querySnapshot.docs[0];
+                    const userData = { id: doc.id, ...doc.data() };
+                    
+                    // Save to session so Dashboard knows who you are
+                    localStorage.setItem('loggedInUser', JSON.stringify(userData));
+                    
+                    alert("Login Successful!");
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert("Invalid Business Name or Password.");
+                    loginBtn.textContent = "Login";
+                    loginBtn.disabled = false;
+                }
 
-            // 3. Validate
-            if (user) {
-                // SUCCESS: Save user session
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
-                alert("Login Successful! Redirecting...");
-                window.location.href = 'dashboard.html';
-            } else {
-                // FAIL
-                alert("Invalid Business Name or Password. Please try again.");
+            } catch (error) {
+                console.error("Login Error:", error);
+                alert("Connection error. Check internet.");
+                loginBtn.textContent = "Login";
+                loginBtn.disabled = false;
             }
         });
     </script>

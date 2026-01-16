@@ -7,63 +7,16 @@
     
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/cards.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Specific Styles for Explore Page Header */
-        .explore-hero {
-            background-color: #0f172a; /* Premium Dark */
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
+        /* Explore Hero Styles */
+        .explore-hero { background-color: #0f172a; color: white; padding: 60px 0; text-align: center; }
         .explore-hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: white; }
         .explore-hero p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 30px; }
-        
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: 2px solid #334155;
-            background: #1e293b;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-        
-        .search-input:focus {
-            border-color: var(--primary-color);
-            background: #0f172a;
-        }
-
-        /* Grid Layout */
-        .business-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        /* Card Tweaks */
-        .business-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 25px;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .business-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .search-container { max-width: 600px; margin: 0 auto; }
+        .search-input { width: 100%; padding: 15px 25px; border-radius: 50px; border: none; font-size: 1rem; }
+        .business-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
     </style>
 </head>
 <body>
@@ -80,17 +33,16 @@
     <header class="explore-hero">
         <div class="container">
             <h1>Marketplace</h1>
-            <p>Discover verified vendors, watch video reviews, and shop safely.</p>
-            
+            <p>Discover verified vendors in Nigeria.</p>
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search by name, category, or product..." onkeyup="filterMarket()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search businesses...">
             </div>
         </div>
     </header>
 
     <section class="container section-gap">
         <div id="exploreGrid" class="business-grid">
-            <p style="text-align:center; color:#666; width:100%;">Loading Vendors...</p>
+            <p style="text-align:center; color:#666; width:100%;">Loading Vendors from Cloud...</p>
         </div>
     </section>
 
@@ -98,7 +50,7 @@
         <div class="container footer-grid">
             <div class="footer-col">
                 <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
-                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+                <p>The #1 trusted marketplace.</p>
             </div>
             <div class="footer-col">
                 <h4>Quick Links</h4>
@@ -114,7 +66,6 @@
                 <ul>
                     <li><a href="help.html">Help Center</a></li>
                     <li><a href="safety.html">Safety Tips</a></li>
-                    <li><a href="report.html">Report a Vendor</a></li>
                     <li><a href="terms.html">Terms of Service</a></li>
                 </ul>
             </div>
@@ -123,89 +74,65 @@
                 <div class="social-links">
                     <a href="#">TikTok</a>
                     <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
                 </div>
                 <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        console.log("EXPLORE PAGE SCRIPT ACTIVE");
+    <script type="module">
+        // Import Firebase
+        import { db } from '../js/firebase-init.js';
+        import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- 1. NAVBAR LOGIC ---
-        // Check if user is logged in and update the top right button
-        const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        const navBtn = document.getElementById('dynamicNavBtn');
+        console.log("EXPLORE PAGE: Fetching Cloud Data...");
 
-        if (currentUser) {
-            navBtn.textContent = "My Dashboard";
-            navBtn.href = "dashboard.html";
-            navBtn.style.backgroundColor = "#0f172a"; // Dark blue to differentiate
-        }
-
-        // --- 2. LOAD DATA ---
-        let businesses = JSON.parse(localStorage.getItem('businesses')) || [];
-
-        // If no data exists (first time visitor), show Dummy Data
-        if (businesses.length === 0) {
-            businesses = [
-                {
-                    name: "Tunmise Wears (Demo)",
-                    category: "Fashion",
-                    description: "Premium cargos and vintage shirts. This is a demo listing.",
-                    rating: 5.0,
-                    whatsapp: "8123456789",
-                    tiktokUrl: "#",
-                    isVerified: true
-                },
-                {
-                    name: "Lagos Tech Hub (Demo)",
-                    category: "Tech",
-                    description: "Clean used iPhones and MacBooks with warranty.",
-                    rating: 4.8,
-                    whatsapp: "8000000000",
-                    tiktokUrl: "#",
-                    isVerified: false
-                }
-            ];
-        }
-
-        // --- 3. RENDER CARDS ---
         const grid = document.getElementById('exploreGrid');
+        const searchInput = document.getElementById('searchInput');
+        let allBusinesses = [];
 
+        // 1. Fetch Data Function
+        async function loadBusinesses() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "vendors"));
+                
+                allBusinesses = [];
+                querySnapshot.forEach((doc) => {
+                    // Combine ID with data
+                    allBusinesses.push({ id: doc.id, ...doc.data() });
+                });
+
+                renderGrid(allBusinesses);
+
+            } catch (error) {
+                console.error("Error loading businesses:", error);
+                grid.innerHTML = '<p>Error loading data. Please check connection.</p>';
+            }
+        }
+
+        // 2. Render Function
         function renderGrid(data) {
             if (data.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; width:100%; font-size:1.2rem; color:#888;">No businesses found matching your search.</p>';
+                grid.innerHTML = '<p style="text-align:center; width:100%;">No businesses found.</p>';
                 return;
             }
 
-            // Generate HTML for each business
-            // We use .reverse() to show the Newest businesses first
+            // Reverse to show newest first
             grid.innerHTML = data.slice().reverse().map(biz => {
-                
-                // Badge Logic
-                const verifiedIcon = biz.isVerified 
-                    ? '<span style="color:#1DA1F2; font-size:0.9em; margin-left:5px;" title="Verified">✔</span>' 
-                    : '';
-
-                // Video Logic
-                const videoBtn = biz.tiktokUrl 
-                    ? `<a href="${biz.tiktokUrl}" target="_blank" style="display:block; margin-top:15px; color:#008751; font-weight:700; font-size:0.9rem; text-decoration:none;">▶ Watch Video Review</a>` 
+                const badge = biz.isVerified ? '<span style="color:#1DA1F2">✔</span>' : '';
+                const videoLink = biz.tiktokUrl 
+                    ? `<a href="${biz.tiktokUrl}" target="_blank" style="display:block; margin-top:10px; color:#008751; font-weight:700;">▶ Watch Video</a>` 
                     : '';
 
                 return `
                     <div class="business-card">
-                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
-                            <h3 style="margin:0; font-size:1.2rem; font-family:'Outfit', sans-serif;">${biz.name} ${verifiedIcon}</h3>
-                            <span style="background:#fffbeb; color:#b45309; padding:2px 8px; border-radius:4px; font-size:0.85rem; font-weight:600;">⭐ ${biz.rating || 5.0}</span>
+                        <div style="display:flex; justify-content:space-between;">
+                            <h3 style="margin:0;">${biz.name} ${badge}</h3>
+                            <span>⭐ ${biz.rating || 5.0}</span>
                         </div>
-                        
-                        <p style="color:#64748b; font-size:0.95rem; line-height:1.5; flex-grow:1;">${biz.description}</p>
-                        
-                        ${videoBtn}
-                        
-                        <a href="https://wa.me/234${biz.whatsapp}?text=Hello ${biz.name}, I found you on NaijaBiz." target="_blank" class="btn-primary" style="display:block; text-align:center; margin-top:15px; text-decoration:none;">
+                        <p style="color:#666; font-size:0.9rem; margin:10px 0;">${biz.description}</p>
+                        ${videoLink}
+                        <a href="https://wa.me/234${biz.whatsapp}" target="_blank" class="btn-primary" style="display:block; text-align:center; margin-top:15px; text-decoration:none;">
                             Chat on WhatsApp
                         </a>
                     </div>
@@ -213,22 +140,27 @@
             }).join('');
         }
 
-        // Initial Load
-        renderGrid(businesses);
-
-        // --- 4. SEARCH FUNCTION ---
-        function filterMarket() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filtered = businesses.filter(biz => {
-                return biz.name.toLowerCase().includes(query) || 
-                       biz.category.toLowerCase().includes(query) || 
-                       biz.description.toLowerCase().includes(query);
-            });
-            
+        // 3. Search Logic
+        searchInput.addEventListener('keyup', (e) => {
+            const val = e.target.value.toLowerCase();
+            const filtered = allBusinesses.filter(b => 
+                b.name.toLowerCase().includes(val) || 
+                b.category.toLowerCase().includes(val)
+            );
             renderGrid(filtered);
-        }
-    </script>
+        });
 
+        // 4. Check Login for Navbar
+        const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if(currentUser) {
+            const btn = document.getElementById('dynamicNavBtn');
+            btn.textContent = "My Dashboard";
+            btn.href = "dashboard.html";
+            btn.style.backgroundColor = "#0f172a";
+        }
+
+        // Initialize
+        loadBusinesses();
+    </script>
 </body>
 </html>

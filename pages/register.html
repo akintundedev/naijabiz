@@ -66,7 +66,7 @@
                 <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@user/video/..." required>
             </div>
 
-            <button type="submit" class="btn-submit">Create Profile</button>
+            <button type="submit" class="btn-submit" id="submitBtn">Create Profile</button>
             
             <p style="text-align:center; margin-top:15px; font-size:0.9rem;">
                 Already have an account? <a href="login.html" style="color:var(--primary-color); font-weight:bold;">Login here</a>
@@ -110,12 +110,23 @@
         </div>
     </footer>
 
-    <script>
-        console.log("REGISTER SCRIPT ACTIVE");
-        
-        document.getElementById('businessForm').addEventListener('submit', function(e) {
+    <script type="module">
+        // 1. Import the Database Connection
+        import { db } from '../js/firebase-init.js';
+        import { collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        console.log("REGISTER PAGE: Firebase Active");
+
+        const form = document.getElementById('businessForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Show loading state
+            submitBtn.textContent = "Creating Account...";
+            submitBtn.disabled = true;
+
             const name = document.getElementById('bizName').value.trim();
             const password = document.getElementById('bizPassword').value.trim();
             const category = document.getElementById('category').value;
@@ -123,42 +134,59 @@
             const whatsapp = document.getElementById('whatsapp').value;
             const tiktok = document.getElementById('tiktokUrl').value;
 
-            if(!name || !password || !whatsapp) { alert("Please fill all fields"); return; }
+            try {
+                // 1. Check if username exists (Cloud Check)
+                const vendorsRef = collection(db, "vendors");
+                const q = query(vendorsRef, where("name", "==", name));
+                const querySnapshot = await getDocs(q);
 
-            // Check duplicate
-            const allBiz = JSON.parse(localStorage.getItem('businesses')) || [];
-            const exists = allBiz.find(b => b.name.toLowerCase() === name.toLowerCase());
-            if(exists) {
-                alert("This Business Name is taken. Try logging in.");
-                return;
+                if (!querySnapshot.empty) {
+                    alert("This Business Name is already taken. Please choose another.");
+                    submitBtn.textContent = "Create Profile";
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                // 2. Video Logic
+                let videoId = '7106869400236084526';
+                if (tiktok.includes('/video/')) { try { videoId = tiktok.split('/video/')[1].split('?')[0]; } catch(e){} }
+
+                // 3. Prepare Data Object
+                const newVendor = {
+                    name: name,
+                    password: password, // Note: In a real app, we should encrypt this. For now, we save as text.
+                    category: category,
+                    description: desc,
+                    whatsapp: whatsapp,
+                    tiktokUrl: tiktok,
+                    videoId: videoId,
+                    rating: 5.0,
+                    sales: 0,
+                    isVerified: false,
+                    verificationTier: "basic", // Plan 1: Basic
+                    dateJoined: new Date().toISOString()
+                };
+
+                // 4. Save to FIREBASE CLOUD
+                const docRef = await addDoc(collection(db, "vendors"), newVendor);
+                
+                // 5. Save local session (so you stay logged in)
+                // We add the FireBase ID to the session so we can find this user later
+                newVendor.id = docRef.id;
+                localStorage.setItem('loggedInUser', JSON.stringify(newVendor));
+
+                console.log("Document written with ID: ", docRef.id);
+                alert("Account Created Successfully! Redirecting...");
+                window.location.href = 'dashboard.html';
+
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                alert("Error connecting to server. Please check your internet.");
+                submitBtn.textContent = "Create Profile";
+                submitBtn.disabled = false;
             }
-
-            // Video ID Logic
-            let videoId = '7106869400236084526';
-            if (tiktok.includes('/video/')) { try { videoId = tiktok.split('/video/')[1].split('?')[0]; } catch(e){} }
-
-            const newBiz = {
-                id: Date.now(),
-                name: name,
-                password: password, // Saving Password
-                category: category,
-                description: desc,
-                whatsapp: whatsapp,
-                tiktokUrl: tiktok,
-                videoId: videoId,
-                rating: 5.0,
-                sales: 0,
-                isVerified: false,
-                dateJoined: Date.now()
-            };
-
-            allBiz.push(newBiz);
-            localStorage.setItem('businesses', JSON.stringify(allBiz));
-            localStorage.setItem('loggedInUser', JSON.stringify(newBiz));
-
-            alert("Account Created! Redirecting...");
-            window.location.href = 'dashboard.html';
         });
     </script>
+
 </body>
 </html>
