@@ -14,7 +14,7 @@
         
         /* CINEMATIC HERO SECTION */
         .vendor-hero {
-            height: 50vh; /* Takes half the screen height */
+            height: 50vh;
             min-height: 400px;
             background-color: #0f172a;
             background-size: cover;
@@ -24,7 +24,6 @@
             align-items: flex-end;
         }
         
-        /* Dark Overlay Gradient */
         .vendor-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -41,11 +40,7 @@
             align-items: flex-end;
         }
 
-        /* Glassmorphism Details Box */
-        .vendor-info-box {
-            color: white;
-            max-width: 600px;
-        }
+        .vendor-info-box { color: white; max-width: 600px; }
 
         .vendor-category {
             display: inline-block;
@@ -69,132 +64,47 @@
         }
 
         .tier-badge { 
-            background: #fbbf24; 
-            color: #0f172a; 
-            padding: 5px 12px; 
-            border-radius: 6px; 
-            font-size: 0.9rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            vertical-align: middle; 
-            margin-left: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            background: #fbbf24; color: #0f172a; 
+            padding: 5px 12px; border-radius: 6px; 
+            font-size: 0.9rem; font-weight: 800; 
+            text-transform: uppercase; vertical-align: middle; 
+            margin-left: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .vendor-desc {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-top: 10px;
-        }
+        .vendor-desc { color: #cbd5e1; font-size: 1.1rem; line-height: 1.6; margin-top: 10px; }
 
-        /* Modern WhatsApp Button */
         .btn-whatsapp-hero {
-            background-color: #25D366;
-            color: white;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background-color: #25D366; color: white;
+            padding: 16px 32px; border-radius: 50px;
+            font-weight: 700; font-size: 1.1rem;
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
             box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        .btn-whatsapp-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
-        }
+        .btn-whatsapp-hero:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4); }
 
-        /* PREMIUM PRODUCT GRID */
+        /* PRODUCT GRID */
         .section-gap { padding: 60px 0; }
-        
-        .premium-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
+        .premium-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
 
         .product-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
-            border: 1px solid #f1f5f9;
+            background: white; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease; border: 1px solid #f1f5f9;
         }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
 
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
+        .card-img-container { height: 250px; background: #f8fafc; overflow: hidden; position: relative; }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .card-img-container img { transform: scale(1.05); }
 
-        .card-img-container {
-            height: 250px;
-            background: #f8fafc;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .card-img-container img {
-            transform: scale(1.05); /* Zoom effect */
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            color: #1e293b;
-        }
-
-        .card-desc {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 15px;
-        }
-
-        .price-tag {
-            color: #008751;
-            font-weight: 800;
-            font-size: 1.25rem;
-        }
-
-        .btn-buy-sm {
-            background: #0f172a;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .btn-buy-sm:hover { background: #1e293b; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px 0; color: #1e293b; }
+        .card-desc { color: #64748b; font-size: 0.9rem; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .price-tag { color: #008751; font-weight: 800; font-size: 1.25rem; }
+        .btn-buy-sm { background: #0f172a; color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; }
 
         @media(max-width: 768px) {
             .vendor-content { flex-direction: column; align-items: flex-start; padding-bottom: 40px; }
@@ -210,7 +120,7 @@
             <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
             <ul class="nav-links">
                 <li><a href="explore.html" style="color:#64748b; font-weight:600; text-decoration:none;">Back to Market</a></li>
-                <li><a href="register.html" class="btn-primary">Join NaijaBiz</a></li>
+                <li><a href="register.html" id="navActionBtn" class="btn-primary">Join NaijaBiz</a></li>
             </ul>
         </div>
     </nav>
@@ -226,4 +136,137 @@
             <div class="vendor-actions">
                 <a id="waButton" href="#" target="_blank" class="btn-whatsapp-hero">
                     <span>Chat on WhatsApp</span>
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="container section-gap">
+        <h2 style="margin-bottom: 30px; font-size: 1.8rem; font-weight: 700; color: #0f172a;">Available Products</h2>
+        <div id="vendorProductGrid" class="premium-grid">
+            <p>Loading products...</p>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+                <p>The #1 trusted marketplace.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="explore.html">Explore Market</a></li>
+                    <li><a href="register.html">Register Business</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { db } from '../js/firebase-init.js';
+        import { doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // ===================================
+        // 1. DYNAMIC NAVBAR LOGIC
+        // ===================================
+        const sessionUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        const navBtn = document.getElementById('navActionBtn');
+        
+        if (sessionUser) {
+            navBtn.textContent = "My Dashboard";
+            navBtn.href = "dashboard.html";
+        } else {
+            navBtn.textContent = "Join NaijaBiz";
+            navBtn.href = "register.html";
+        }
+
+        // ===================================
+        // 2. LOAD VENDOR DATA
+        // ===================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const vendorId = urlParams.get('id');
+
+        if (!vendorId) {
+            console.log("No ID found in URL");
+            window.location.href = 'explore.html';
+        }
+
+        async function loadVendor() {
+            try {
+                console.log("Fetching Vendor ID:", vendorId);
+                const docRef = doc(db, "vendors", vendorId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    document.getElementById('vendorName').innerHTML = `${data.name} ${data.isVerified ? '✅' : ''} <span class="tier-badge">${data.verificationTier || 'Basic'}</span>`;
+                    document.getElementById('vendorDesc').textContent = data.description;
+                    document.getElementById('vendorCategory').textContent = data.category;
+                    
+                    if (data.coverImage) {
+                        document.getElementById('heroSection').style.backgroundImage = `url('${data.coverImage}')`;
+                    }
+
+                    document.getElementById('waButton').href = `https://wa.me/234${data.whatsapp}?text=Hello, I saw your store on NaijaBiz...`;
+                
+                } else {
+                    // HANDLE "VENDOR NOT FOUND"
+                    document.getElementById('vendorName').textContent = "Vendor Not Found";
+                    document.getElementById('vendorDesc').innerHTML = `
+                        This shop does not exist or has been removed.<br><br>
+                        <a href='explore.html' class='btn-primary' style='padding:10px 20px; font-size:1rem;'>Browse Other Shops</a>
+                    `;
+                    document.getElementById('vendorCategory').style.display = 'none';
+                    document.getElementById('waButton').style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Error loading vendor:", error);
+                document.getElementById('vendorName').textContent = "Error Loading";
+            }
+        }
+
+        async function loadProducts() {
+            const grid = document.getElementById('vendorProductGrid');
+            try {
+                const q = query(collection(db, "products"), where("vendorId", "==", vendorId));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<p>No products listed yet.</p>';
+                    return;
+                }
+
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const p = doc.data();
+                    html += `
+                    <div class="product-card">
+                        <div class="card-img-container">
+                            <img src="${p.image}" alt="${p.name}">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${p.name}</h3>
+                            <p class="card-desc">${p.description || ''}</p>
+                            <div class="card-footer">
+                                <span class="price-tag">₦${p.price}</span>
+                                <a href="https://wa.me/234?text=I want to buy ${p.name}" target="_blank" class="btn-buy-sm">Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+                grid.innerHTML = html;
+
+            } catch (error) { console.error(error); }
+        }
+
+        loadVendor();
+        loadProducts();
+    </script>
+</body>
+</html>
