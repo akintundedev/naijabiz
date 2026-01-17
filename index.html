@@ -11,6 +11,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Tightening the gaps specifically for the Home Page */
+        .home-section { padding: 40px 0; } /* Reduced from standard section-gap */
+        .bg-offset { background-color: #f8fafc; }
+        .section-header { margin-bottom: 25px; }
+        .loading-text { color: #64748b; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
 
@@ -70,7 +78,7 @@
         </div>
     </div>
 
-    <section class="container section-gap how-it-works">
+    <section class="container home-section how-it-works">
         <div class="section-header center-text">
             <h2>How NaijaBiz Works</h2>
             <p>We made buying and selling simple and safe.</p>
@@ -80,57 +88,69 @@
             <div class="step-card">
                 <div class="step-number">1</div>
                 <h3>Search & Discover</h3>
-                <p>Browse thousands of verified products with real video reviews from TikTok.</p>
+                <p>Browse verified products with real video reviews.</p>
             </div>
             <div class="step-card">
                 <div class="step-number">2</div>
                 <h3>Chat via WhatsApp</h3>
-                <p>Click one button to start a direct, pre-filled chat with the business owner.</p>
+                <p>Direct, pre-filled chat with business owners.</p>
             </div>
             <div class="step-card">
                 <div class="step-number">3</div>
                 <h3>Rate & Review</h3>
-                <p>After your transaction, leave a rating to help the community stay safe.</p>
+                <p>Help the community stay safe by sharing feedback.</p>
             </div>
         </div>
     </section>
 
-    <section class="container section-gap bg-offset">
-        <div class="section-header">
-            <div>
-                <h2>🆕 Newly Verified Vendors</h2>
-                <p class="sub-text">Fresh businesses just added today.</p>
+    <section class="home-section bg-offset">
+        <div class="container">
+            <div class="section-header">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;">
+                    <div>
+                        <h2 style="margin:0;">🆕 Newly Verified</h2>
+                        <p class="sub-text" style="margin:5px 0 0 0;">Fresh businesses added today.</p>
+                    </div>
+                    <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
+                </div>
             </div>
-            <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
-        </div>
-        <div id="newlyVerifiedGrid" class="business-grid">
-            <p class="loading-text">Loading...</p>
+            <div id="newlyVerifiedGrid" class="business-grid">
+                <p class="loading-text">Loading Vendors...</p>
+            </div>
         </div>
     </section>
 
-    <section class="container section-gap">
-        <div class="section-header">
-            <div>
-                <h2>🔥 Top Selling This Week</h2>
-                <p class="sub-text">Vendors with the highest order volume.</p>
+    <section class="home-section">
+        <div class="container">
+            <div class="section-header">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;">
+                    <div>
+                        <h2 style="margin:0;">🔥 Newest Arrivals</h2>
+                        <p class="sub-text" style="margin:5px 0 0 0;">Latest items from our marketplace.</p>
+                    </div>
+                    <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
+                </div>
             </div>
-            <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
-        </div>
-        <div id="topSellingGrid" class="business-grid">
-            <p class="loading-text">Loading...</p>
+            <div id="latestProductsGrid" class="business-grid">
+                <p class="loading-text">Loading Products...</p>
+            </div>
         </div>
     </section>
 
-    <section class="container section-gap bg-offset">
-        <div class="section-header">
-            <div>
-                <h2>⭐ 5-Star Service</h2>
-                <p class="sub-text">Vendors with perfect customer feedback.</p>
+    <section class="home-section bg-offset">
+        <div class="container">
+            <div class="section-header">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%;">
+                    <div>
+                        <h2 style="margin:0;">⭐ 5-Star Service</h2>
+                        <p class="sub-text" style="margin:5px 0 0 0;">Perfect customer feedback.</p>
+                    </div>
+                    <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
+                </div>
             </div>
-            <a href="pages/explore.html" class="view-all-link">View All &rarr;</a>
-        </div>
-        <div id="topRatedGrid" class="business-grid">
-            <p class="loading-text">Loading...</p>
+            <div id="topRatedGrid" class="business-grid">
+                <p class="loading-text">Loading Vendors...</p>
+            </div>
         </div>
     </section>
 
@@ -177,75 +197,76 @@
         </div>
     </footer>
 
-    <script>
-        console.log("HOME PAGE LOGIC ACTIVE");
+    <script type="module">
+        import { db } from './js/firebase-init.js';
+        import { collection, query, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // 1. NAVBAR CHECK
         const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        const navBtn = document.getElementById('navDynamicBtn');
-
         if (currentUser) {
+            const navBtn = document.getElementById('navDynamicBtn');
             navBtn.textContent = "My Dashboard";
             navBtn.href = "pages/dashboard.html";
             navBtn.style.backgroundColor = "#0f172a";
         }
 
-        // 2. LOAD DATA
-        let businesses = JSON.parse(localStorage.getItem('businesses')) || [];
+        function createCard(id, biz) {
+            let badge = '';
+            const tier = biz.verificationTier ? biz.verificationTier.toLowerCase() : 'basic';
+            if (tier === 'premium') badge = '<span style="color:#fbbf24; margin-left:5px;">✔ (Gold)</span>';
+            else if (tier === 'verified') badge = '<span style="color:#1DA1F2; margin-left:5px;">✔ (Blue)</span>';
+            else badge = '<span style="color:#64748b; font-size:0.75rem; margin-left:5px;">(NEW)</span>';
 
-        // Dummy Data for empty state
-        if (businesses.length === 0) {
-            businesses = [
-                { name: "Tunmise Wears", description: "Premium cargos.", rating: 5.0, sales: 120, whatsapp: "8123456789", tiktokUrl: "", isVerified: true, dateJoined: 100 },
-                { name: "Lagos Tech", description: "Used iPhones.", rating: 4.8, sales: 50, whatsapp: "800000000", tiktokUrl: "", isVerified: false, dateJoined: 90 }
-            ];
-        }
-
-        // 3. CARD GENERATOR FUNCTION
-        function createCard(biz) {
-            const badge = biz.isVerified ? '<span style="color:#1DA1F2">✔</span>' : '';
-            const videoLink = biz.tiktokUrl ? `<a href="${biz.tiktokUrl}" target="_blank" style="font-size:0.8rem; color:#008751;">Watch Video</a>` : '';
-            
             return `
             <div class="business-card">
                 <div class="card-header">
                     <h3>${biz.name} ${badge}</h3>
                     <span>⭐ ${biz.rating || 5.0}</span>
                 </div>
-                <p>${biz.description}</p>
+                <p>${biz.description.substring(0, 100)}...</p>
                 <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-                    ${videoLink}
+                    <a href="pages/vendor-profile.html?id=${id}" style="font-size:0.8rem; color:#008751; font-weight:bold;">Visit Shop</a>
                     <a href="https://wa.me/234${biz.whatsapp}" target="_blank" class="btn-primary" style="padding:5px 15px; font-size:0.8rem;">Chat</a>
                 </div>
-            </div>
-            `;
+            </div>`;
         }
 
-        // --- THE "PROMPTS" (SORTING LOGIC) ---
+        function createProductCard(p) {
+            return `
+            <div class="business-card">
+                <div style="height:140px; background:#f1f5f9; border-radius:8px; overflow:hidden; margin-bottom:10px;">
+                    <img src="${p.image}" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="card-header">
+                    <h3 style="font-size:1rem;">${p.name}</h3>
+                    <span style="color:#008751; font-weight:bold;">₦${p.price}</span>
+                </div>
+                <div style="margin-top:10px;">
+                    <a href="pages/vendor-profile.html?id=${p.vendorId}" class="btn-primary" style="display:block; text-align:center; font-size:0.8rem; padding:8px;">View Seller</a>
+                </div>
+            </div>`;
+        }
 
-        // A. Newly Verified (Sort by Date Joined, take top 3)
-        const newGrid = document.getElementById('newlyVerifiedGrid');
-        // [.slice() creates a copy so we don't mess up the original list]
-        const sortedByDate = businesses.slice().sort((a, b) => b.dateJoined - a.dateJoined);
-        newGrid.innerHTML = sortedByDate.slice(0, 3).map(createCard).join('');
+        async function loadHomeData() {
+            try {
+                const snapNew = await getDocs(query(collection(db, "vendors"), limit(3)));
+                const newGrid = document.getElementById('newlyVerifiedGrid');
+                newGrid.innerHTML = ''; snapNew.forEach(doc => newGrid.innerHTML += createCard(doc.id, doc.data()));
 
-        // B. Top Selling (Sort by Sales, take top 3)
-        const sellingGrid = document.getElementById('topSellingGrid');
-        const sortedBySales = businesses.slice().sort((a, b) => (b.sales || 0) - (a.sales || 0));
-        sellingGrid.innerHTML = sortedBySales.slice(0, 3).map(createCard).join('');
+                const snapProd = await getDocs(query(collection(db, "products"), limit(3)));
+                const prodGrid = document.getElementById('latestProductsGrid');
+                prodGrid.innerHTML = ''; snapProd.forEach(doc => prodGrid.innerHTML += createProductCard(doc.data()));
 
-        // C. Top Rated / 5-Star (Sort by Rating, take top 3)
-        const ratedGrid = document.getElementById('topRatedGrid');
-        const sortedByRating = businesses.slice().sort((a, b) => (b.rating || 5.0) - (a.rating || 5.0));
-        ratedGrid.innerHTML = sortedByRating.slice(0, 3).map(createCard).join('');
+                const snapRated = await getDocs(query(collection(db, "vendors"), limit(3)));
+                const ratedGrid = document.getElementById('topRatedGrid');
+                ratedGrid.innerHTML = ''; snapRated.forEach(doc => ratedGrid.innerHTML += createCard(doc.id, doc.data()));
+            } catch (err) { console.error(err); }
+        }
 
-
-        // 4. SEARCH
-        function handleSearch() {
+        loadHomeData();
+        window.handleSearch = function() {
             const query = document.getElementById('homeSearchInput').value;
-            if(query) window.location.href = "pages/explore.html"; 
+            if(query) window.location.href = "pages/explore.html?q=" + encodeURIComponent(query); 
         }
     </script>
-
 </body>
 </html>
