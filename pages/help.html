@@ -3,85 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Center | NaijaBiz</title>
+    <title>Help Center | NaijaBiz Support</title>
+    
     <link rel="stylesheet" href="../css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { background: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; }
+        
+        /* HERO SECTION */
+        .help-hero { 
+            background: #0f172a; color: white; padding: 80px 0; text-align: center; 
+            background-image: radial-gradient(circle at 20% 30%, rgba(0, 135, 81, 0.15) 0%, transparent 50%);
+        }
+        .search-box { 
+            max-width: 600px; margin: 30px auto 0; position: relative; 
+        }
+        .search-box input { 
+            width: 100%; padding: 18px 25px; border-radius: 15px; border: none; 
+            font-size: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+        }
+
+        /* CATEGORY GRID */
+        .help-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; margin-top: -50px; 
+        }
+        .help-card { 
+            background: white; padding: 35px; border-radius: 24px; border: 1px solid #e2e8f0; 
+            transition: 0.3s; text-decoration: none; color: inherit;
+        }
+        .help-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: #008751; }
+        
+        .icon-box { 
+            width: 60px; height: 60px; background: #f0fdf4; border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; 
+        }
+
+        /* FAQ ACCORDION */
+        .faq-section { max-width: 800px; margin: 80px auto; }
+        .faq-item { background: white; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .faq-question { padding: 20px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: 0.3s ease-out; color: #64748b; font-size: 0.95rem; line-height: 1.6; }
+        .faq-item.active .faq-answer { padding: 0 20px 20px 20px; max-height: 200px; }
+        .faq-item.active .faq-question { color: #008751; }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar">
+    <nav class="navbar" style="background: white; border-bottom: 1px solid #e2e8f0;">
         <div class="container nav-flex">
             <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
             <ul class="nav-links">
-                <li><a href="explore.html">Explore Vendors</a></li>
-                <li><a href="register.html" class="btn-primary">Register Business</a></li>
+                <li><a href="explore.html" style="color: #0f172a;">Explore</a></li>
+                <li><a href="dashboard.html" id="navBtn" class="btn-primary">My Dashboard</a></li>
             </ul>
         </div>
     </nav>
 
-    <main class="container" style="padding: 60px 0; max-width: 800px;">
-        <h1 style="margin-bottom: 20px;">Frequently Asked Questions</h1>
-        
-        <div class="faq-item" style="margin-bottom: 30px;">
-            <h3 style="color:var(--primary-color);">Is NaijaBiz free to use?</h3>
-            <p>Yes! Buyers can browse for free. Vendors can list their business for free on the Standard plan.</p>
+    <header class="help-hero">
+        <div class="container">
+            <h1 style="font-family:'Outfit'; font-size: 3rem; margin:0;">How can we help?</h1>
+            <div class="search-box">
+                <input type="text" placeholder="Search for articles (e.g. how to verify, payments...)">
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="help-grid">
+            <a href="#sellers" class="help-card">
+                <div class="icon-box">🏬</div>
+                <h3 style="font-family:'Outfit';">For Sellers</h3>
+                <p style="font-size:0.9rem; color:#64748b;">Managing your shop, adding products, and increasing sales.</p>
+            </a>
+            <a href="#payments" class="help-card">
+                <div class="icon-box">💳</div>
+                <h3 style="font-family:'Outfit';">Payments</h3>
+                <p style="font-size:0.9rem; color:#64748b;">Understanding Paystack, Gold/Blue tiers, and billing.</p>
+            </a>
+            <a href="#safety" class="help-card">
+                <div class="icon-box">🛡️</div>
+                <h3 style="font-family:'Outfit';">Trust & Safety</h3>
+                <p style="font-size:0.9rem; color:#64748b;">Avoiding scams, reporting vendors, and verified badges.</p>
+            </a>
         </div>
 
-        <div class="faq-item" style="margin-bottom: 30px;">
-            <h3 style="color:var(--primary-color);">How do I verify my business?</h3>
-            <p>Currently, verification is done manually. After you register, upload a clear TikTok video of your product. Our team reviews all new listings within 24 hours.</p>
-        </div>
+        <section class="faq-section">
+            <h2 style="font-family:'Outfit'; text-align:center; margin-bottom:40px;">Frequently Asked Questions</h2>
+            
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">How do I verify my business? <span>+</span></div>
+                <div class="faq-answer">Log in to your Dashboard, go to "Brand Identity," and choose a verification tier. Payments are processed securely via Paystack and your badge is activated instantly.</div>
+            </div>
 
-        <div class="faq-item" style="margin-bottom: 30px;">
-            <h3 style="color:var(--primary-color);">A vendor scammed me. What do I do?</h3>
-            <p>Please report them immediately using the <a href="report.html" style="text-decoration:underline;">Report a Vendor</a> page. We will investigate and ban their account if found guilty.</p>
-        </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">What is the difference between Blue and Gold? <span>+</span></div>
+                <div class="faq-answer">Blue Verification gives you a trust badge. Gold Premium gives you the badge PLUS a cinematic profile header and priority placement in search results.</div>
+            </div>
 
-        <div class="faq-item" style="margin-bottom: 30px;">
-            <h3 style="color:var(--primary-color);">How does the WhatsApp chat work?</h3>
-            <p>When you click "Chat on WhatsApp," we open a chat with the seller and automatically paste a message saying you came from NaijaBiz.</p>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">How do buyers contact me? <span>+</span></div>
+                <div class="faq-answer">When you add your WhatsApp number in the dashboard, we create a direct "Order on WhatsApp" button on your profile for customers.</div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">Is NaijaBiz involved in the payment for goods? <span>+</span></div>
+                <div class="faq-answer">No. We are a directory. All product payments happen directly between you and the buyer on WhatsApp. We only handle verification fees.</div>
+            </div>
+        </section>
+
+        <div style="text-align:center; padding-bottom:80px;">
+            <p style="color:#64748b;">Still need help?</p>
+            <a href="mailto:adewaletunmise124@gmail.com" class="btn-primary" style="text-decoration:none;">Contact Support Team</a>
         </div>
     </main>
 
-<footer class="main-footer">
+    <footer class="main-footer" style="background: #0f172a; color: white; padding: 60px 0;">
         <div class="container footer-grid">
-            
             <div class="footer-col">
-                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
-                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+                <a href="../index.html" class="footer-logo" style="color:white; font-size:1.5rem; text-decoration:none;">Naija<span class="highlight">Biz</span></a>
+                <p style="color: #94a3b8; margin-top: 10px;">The #1 trusted marketplace.</p>
             </div>
-
             <div class="footer-col">
                 <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="explore.html">Explore Market</a></li>
-                    <li><a href="register.html">Register Business</a></li>
-                    <li><a href="dashboard.html">My Dashboard</a></li>
+                <ul id="footerNav" style="list-style:none; padding:0; line-height:2;">
+                    <li><a href="../index.html" style="color:#94a3b8; text-decoration:none;">Home</a></li>
+                    <li id="dynamicFooterLink"><a href="register.html" style="color:#94a3b8; text-decoration:none;">Register</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Support</h4>
-                <ul>
-                    <li><a href="help.html">Help Center</a></li>
-                    <li><a href="safety.html">Safety Tips</a></li>
-                    <li><a href="report.html">Report a Vendor</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
+                <ul style="list-style:none; padding:0; line-height:2;">
+                    <li><a href="safety.html" style="color:#94a3b8; text-decoration:none;">Safety Tips</a></li>
+                    <li><a href="privacy.html" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a></li>
+                    <li><a href="terms.html" style="color:#94a3b8; text-decoration:none;">Terms of Service</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">TikTok</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+                <p class="copyright" style="color: #64748b; font-size: 0.8rem; margin-top: 40px;">
+                    <a href="admin-login.html" style="text-decoration: none; color: inherit; cursor: default;">.</a> 
+                    &copy; 2026 NaijaBiz Inc.
+                </p>
             </div>
-
         </div>
     </footer>
+
+    <script>
+        // FAQ Toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+            const icon = element.querySelector('span');
+            icon.textContent = element.classList.contains('active') ? '−' : '+';
+        }
+
+        // Session Logic
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!user) {
+            document.getElementById('navBtn').textContent = "Join as Vendor";
+            document.getElementById('navBtn').href = "register.html";
+        } else {
+            document.getElementById('dynamicFooterLink').innerHTML = `<a href="dashboard.html" style="color:#94a3b8; text-decoration:none;">My Dashboard</a>`;
+        }
+    </script>
 </body>
 </html>

@@ -154,15 +154,39 @@
         </div>
     </section>
 
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Scale Your Business?</h2>
-            <p>Join 500+ Nigerian businesses selling faster with trust.</p>
-            <a href="pages/register.html" class="btn-cta">Create Free Profile</a>
-        </div>
-    </section>
+<section class="cta-section" id="dynamicCTA">
+    <div class="container cta-content">
+        <h2 id="ctaTitle">Ready to scale your business?</h2>
+        <p id="ctaDesc">Join thousands of Nigerian entrepreneurs reaching millions of customers.</p>
+        <a href="pages/register.html" id="ctaBtn" class="btn-primary">Register My Business</a>
+    </div>
+</section>
 
-    <footer class="main-footer">
+<script>
+    // CTA SESSION LOGIC
+    (function() {
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        const title = document.getElementById('ctaTitle');
+        const desc = document.getElementById('ctaDesc');
+        const btn = document.getElementById('ctaBtn');
+
+        if (user) {
+            // If the user is already a vendor
+            title.textContent = "Ready to make more sales?";
+            desc.textContent = "Your shop is live! Add more products to your catalog to attract more customers.";
+            btn.textContent = "Manage My Products";
+            btn.href = "pages/dashboard.html";
+        } else {
+            // Default for guests
+            title.textContent = "Ready to scale your business?";
+            desc.textContent = "Join thousands of Nigerian entrepreneurs reaching millions of customers.";
+            btn.textContent = "Register My Business";
+            btn.href = "pages/register.html";
+        }
+    })();
+</script>
+
+<footer class="main-footer">
         <div class="container footer-grid">
             <div class="footer-col">
                 <a href="index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
@@ -192,7 +216,10 @@
                     <a href="#">TikTok</a>
                     <a href="#">Instagram</a>
                 </div>
-                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+                <p class="copyright">
+                    <a href="pages/admin-login.html" style="text-decoration: none; color: inherit; cursor: default;">.</a> 
+                    &copy; 2026 NaijaBiz Inc.
+                </p>
             </div>
         </div>
     </footer>

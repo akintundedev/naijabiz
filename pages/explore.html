@@ -161,5 +161,63 @@
         searchInput.addEventListener('keyup', performFilter);
         loadVendors();
     </script>
+    <footer class="main-footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+            <p>The #1 trusted marketplace.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="explore.html">Explore Market</a></li>
+                <li id="dynamicFooterLink"><a href="register.html">Register Business</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="safety.html">Safety Tips</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li> <li><a href="help.html">Help Center</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">TikTok</a>
+                <a href="#">Instagram</a>
+            </div>
+            <p class="copyright">
+                <a href="admin-login.html" style="text-decoration: none; color: inherit; cursor: default;">.</a> 
+                &copy; 2026 NaijaBiz Inc.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // SMART SESSION NAVIGATOR
+    (function() {
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        const linkContainer = document.getElementById('dynamicFooterLink');
+        
+        // Path logic to prevent broken links
+        const onSubPage = window.location.pathname.includes('/pages/');
+        const pathPrefix = onSubPage ? "" : "pages/";
+
+        if (user) {
+            // If logged in, show Dashboard
+            linkContainer.innerHTML = `<a href="${pathPrefix}dashboard.html">My Dashboard</a>`;
+        } else {
+            // If guest, show Register
+            linkContainer.innerHTML = `<a href="${pathPrefix}register.html">Register Business</a>`;
+        }
+    })();
+</script>
 </body>
 </html>

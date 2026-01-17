@@ -3,103 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vendor Profile | NaijaBiz</title>
+    <title>Official Store | NaijaBiz</title>
+    
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/cards.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-        .vendor-hero { height: 50vh; background-color: #0f172a; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; }
-        .vendor-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.95)); }
-        .vendor-content { position: relative; z-index: 2; width: 100%; padding-bottom: 60px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .vendor-info-box { color: white; max-width: 600px; }
-        .vendor-category { display: inline-block; background: rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.3); }
-        .vendor-info-box h1 { font-family: 'Outfit', sans-serif; font-size: 3rem; margin: 0; font-weight: 800; letter-spacing: -1px; }
-        .tier-badge { padding: 5px 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 800; vertical-align: middle; margin-left: 10px; }
-        .vendor-desc { color: #cbd5e1; font-size: 1.1rem; line-height: 1.6; margin-top: 10px; }
-        .btn-whatsapp-hero { background-color: #25D366; color: white; padding: 16px 32px; border-radius: 50px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .product-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #f1f5f9; transition: transform 0.3s; }
-        .product-card:hover { transform: translateY(-8px); }
-        .card-img-container { height: 250px; background: #f8fafc; overflow: hidden; }
-        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .price-tag { color: #008751; font-weight: 800; font-size: 1.25rem; }
-        @media(max-width: 768px) { .vendor-content { flex-direction: column; align-items: flex-start; } .btn-whatsapp-hero { margin-top: 25px; width: 100%; } }
+        :root {
+            --gold: #fbbf24;
+            --blue: #3b82f6;
+            --dark: #0f172a;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: var(--dark); }
+
+        /* PREMIUM HERO SECTION */
+        .hero-banner {
+            height: 60vh;
+            min-height: 450px;
+            background-color: var(--dark);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            transition: background 0.5s ease-in-out;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.95));
+        }
+
+        .brand-container {
+            position: relative;
+            z-index: 10;
+            padding-bottom: 60px;
+            width: 100%;
+        }
+
+        /* GLASSMORPHISM PROFILE BOX */
+        .brand-profile-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 24px;
+            color: white;
+            max-width: 800px;
+        }
+
+        .category-pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .brand-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-top: 15px;
+        }
+
+        .badge-gold { background: var(--gold); color: var(--dark); }
+        .badge-blue { background: var(--blue); color: white; }
+        .badge-new { background: #64748b; color: white; }
+
+        .brand-bio {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        /* PRODUCT SECTION */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .pro-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .pro-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+        }
+
+        .pro-img-wrapper {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pro-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .pro-card:hover .pro-img-wrapper img { transform: scale(1.1); }
+
+        .pro-details { padding: 25px; }
+
+        .pro-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #008751;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .btn-wa-buy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--dark);
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn-wa-buy:hover { background: #008751; transform: scale(1.02); }
+
+        /* FLOATING ACTION BUTTON FOR MOBILE */
+        .fab-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            text-decoration: none;
+            font-size: 1.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .brand-profile-box { padding: 25px; border-radius: 0; background: none; backdrop-filter: none; border: none; }
+            .hero-banner { height: auto; padding-top: 100px; }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar" style="background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+
+    <nav class="navbar" style="background: white; border-bottom: 1px solid #e2e8f0;">
         <div class="container nav-flex">
             <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
             <ul class="nav-links">
-                <li><a href="explore.html">Explore Market</a></li>
-                <li><a href="register.html" id="navActionBtn" class="btn-primary">Join NaijaBiz</a></li>
+                <li><a href="explore.html" style="color: var(--dark); font-weight: 600;">Back to Market</a></li>
+                <li><a href="dashboard.html" id="navBtn" class="btn-primary">My Dashboard</a></li>
             </ul>
         </div>
     </nav>
 
-    <header id="heroSection" class="vendor-hero">
-        <div class="vendor-overlay"></div>
-        <div class="container vendor-content">
-            <div class="vendor-info-box">
-                <span id="vendorCategory" class="vendor-category">Category</span>
-                <h1 id="vendorName">...</h1>
-                <p id="vendorDesc" class="vendor-desc">Loading details...</p>
-            </div>
-            <div class="vendor-actions">
-                <a id="waButton" href="#" target="_blank" class="btn-whatsapp-hero">Chat on WhatsApp</a>
+    <header id="heroSection" class="hero-banner">
+        <div class="hero-overlay"></div>
+        <div class="container brand-container">
+            <div class="brand-profile-box">
+                <span id="vCat" class="category-pill">Category</span>
+                <h1 id="vName" class="brand-name">Loading Brand...</h1>
+                <div id="vBadge" class="trust-badge">
+                    </div>
+                <p id="vBio" class="brand-bio">
+                    Connecting you with quality products and exceptional service.
+                </p>
             </div>
         </div>
     </header>
 
-    <section class="container" style="padding: 60px 0;">
-        <h2 style="margin-bottom: 30px; font-weight: 700;">Inventory</h2>
-        <div id="vendorProductGrid" class="business-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
-            <p>Loading products...</p>
+    <main class="container" style="padding: 80px 0;">
+        <div class="section-title">
+            <span>🛍️</span> 
+            <h2>Product Collection</h2>
         </div>
-    </section>
+        
+        <div id="productGrid" class="product-grid">
+            <p>Curating the best items for you...</p>
+        </div>
+    </main>
+
+    <a id="fabWA" href="#" target="_blank" class="fab-whatsapp">
+        <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+
+<footer class="main-footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
+            <p>The #1 trusted marketplace.</p>
+        </div>
+
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="explore.html">Explore Market</a></li>
+                <li id="dynamicFooterLink"><a href="register.html">Register Business</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="safety.html">Safety Tips</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li> <li><a href="help.html">Help Center</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">TikTok</a>
+                <a href="#">Instagram</a>
+            </div>
+            <p class="copyright">
+                <a href="admin-login.html" style="text-decoration: none; color: inherit; cursor: default;">.</a> 
+                &copy; 2026 NaijaBiz Inc.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // SMART SESSION NAVIGATOR
+    (function() {
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        const linkContainer = document.getElementById('dynamicFooterLink');
+        
+        // Path logic to prevent broken links
+        const onSubPage = window.location.pathname.includes('/pages/');
+        const pathPrefix = onSubPage ? "" : "pages/";
+
+        if (user) {
+            // If logged in, show Dashboard
+            linkContainer.innerHTML = `<a href="${pathPrefix}dashboard.html">My Dashboard</a>`;
+        } else {
+            // If guest, show Register
+            linkContainer.innerHTML = `<a href="${pathPrefix}register.html">Register Business</a>`;
+        }
+    })();
+</script>
 
     <script type="module">
         import { db } from '../js/firebase-init.js';
         import { doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const sessionUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        const navBtn = document.getElementById('navActionBtn');
-        if (sessionUser) { navBtn.textContent = "Dashboard"; navBtn.href = "dashboard.html"; }
-
         const urlParams = new URLSearchParams(window.location.search);
         const vendorId = urlParams.get('id');
 
-        async function loadVendor() {
-            const docSnap = await getDoc(doc(db, "vendors", vendorId));
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                const tier = data.verificationTier ? data.verificationTier.toLowerCase() : 'basic';
+        // Navbar Sync
+        const sessionUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!sessionUser) {
+            const navBtn = document.getElementById('navBtn');
+            navBtn.textContent = "Join NaijaBiz";
+            navBtn.href = "register.html";
+        }
+
+        async function loadVendorProfile() {
+            if (!vendorId) { window.location.href = 'explore.html'; return; }
+
+            try {
+                const docSnap = await getDoc(doc(db, "vendors", vendorId));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const tier = data.verificationTier || 'basic';
+
+                    document.getElementById('vName').textContent = data.name;
+                    document.getElementById('vCat').textContent = data.category;
+                    document.getElementById('vBio').textContent = data.description || "A professional merchant on NaijaBiz.";
+                    
+                    if (data.coverImage) {
+                        document.getElementById('heroSection').style.backgroundImage = `url('${data.coverImage}')`;
+                    }
+
+                    // Badge Logic
+                    const badgeBox = document.getElementById('vBadge');
+                    if (tier === 'premium') {
+                        badgeBox.innerHTML = `<div class="trust-badge badge-gold">⭐ PREMIUM GOLD VENDOR</div>`;
+                    } else if (tier === 'verified') {
+                        badgeBox.innerHTML = `<div class="trust-badge badge-blue">✅ VERIFIED BLUE VENDOR</div>`;
+                    } else {
+                        badgeBox.innerHTML = `<div class="trust-badge badge-new">NEW MERCHANT</div>`;
+                    }
+
+                    // WhatsApp Links
+                    const waLink = `https://wa.me/234${data.whatsapp}?text=Hello ${data.name}, I'm interested in your products on NaijaBiz...`;
+                    document.getElementById('fabWA').href = waLink;
+
+                    loadProducts(waLink);
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function loadProducts(waLink) {
+            const grid = document.getElementById('productGrid');
+            try {
+                const q = query(collection(db, "products"), where("vendorId", "==", vendorId));
+                const snap = await getDocs(q);
                 
-                let tierStyle = { bg: '#f1f5f9', txt: 'NEW', color: '#475569' };
-                if(tier === 'premium') tierStyle = { bg: '#fbbf24', txt: 'PREMIUM VENDOR', color: '#0f172a' };
-                else if(tier === 'verified') tierStyle = { bg: '#3b82f6', txt: 'VERIFIED VENDOR', color: '#fff' };
+                if (snap.empty) {
+                    grid.innerHTML = '<p style="color:#64748b;">No products listed yet. Check back soon!</p>';
+                    return;
+                }
 
-                document.getElementById('vendorName').innerHTML = `${data.name} <span class="tier-badge" style="background:${tierStyle.bg}; color:${tierStyle.color};">${tierStyle.txt}</span>`;
-                document.getElementById('vendorDesc').textContent = data.description;
-                document.getElementById('vendorCategory').textContent = data.category;
-                if (data.coverImage) document.getElementById('heroSection').style.backgroundImage = `url('${data.coverImage}')`;
-                document.getElementById('waButton').href = `https://wa.me/234${data.whatsapp}`;
-            }
+                let html = '';
+                snap.forEach((doc) => {
+                    const p = doc.data();
+                    html += `
+                    <div class="pro-card">
+                        <div class="pro-img-wrapper">
+                            <img src="${p.image}" alt="${p.name}">
+                        </div>
+                        <div class="pro-details">
+                            <h3 style="margin:0 0 10px 0; font-size:1.2rem;">${p.name}</h3>
+                            <span class="pro-price">₦${Number(p.price).toLocaleString()}</span>
+                            <a href="${waLink}" target="_blank" class="btn-wa-buy">
+                                <span>Order via WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>`;
+                });
+                grid.innerHTML = html;
+            } catch (err) { grid.innerHTML = '<p>Error loading catalog.</p>'; }
         }
 
-        async function loadProducts() {
-            const q = query(collection(db, "products"), where("vendorId", "==", vendorId));
-            const querySnapshot = await getDocs(q);
-            let html = '';
-            querySnapshot.forEach((doc) => {
-                const p = doc.data();
-                html += `<div class="product-card"><div class="card-img-container"><img src="${p.image}"></div><div class="card-body"><h3>${p.name}</h3><p>${p.description || ''}</p><div style="display:flex; justify-content:space-between; align-items:center; margin-top:15px;"><span class="price-tag">₦${p.price}</span><a href="https://wa.me/234" class="btn-primary" style="padding:8px 15px; font-size:0.8rem;">Buy</a></div></div></div>`;
-            });
-            document.getElementById('vendorProductGrid').innerHTML = html || '<p>No products yet.</p>';
-        }
-
-        loadVendor(); loadProducts();
+        loadVendorProfile();
     </script>
 </body>
 </html>

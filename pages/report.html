@@ -3,97 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Vendor | NaijaBiz</title>
+    <title>Report a Violation | NaijaBiz</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/forms.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .report-container { max-width: 650px; margin: 60px auto; background: white; padding: 40px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .warning-box { background: #fff7ed; border-left: 4px solid #f97316; padding: 15px; border-radius: 8px; margin-bottom: 30px; font-size: 0.9rem; color: #9a3412; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: #0f172a; font-size: 0.9rem; }
+        .input-field { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 20px; font-family: inherit; }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar">
+    <nav class="navbar" style="background: white; border-bottom: 1px solid #e2e8f0;">
         <div class="container nav-flex">
             <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
+            <ul class="nav-links">
+                <li><a href="explore.html" style="color: #0f172a;">Back to Market</a></li>
+                <li><a href="dashboard.html" id="navBtn" class="btn-primary">My Dashboard</a></li>
+            </ul>
         </div>
     </nav>
 
-    <div class="form-container">
-        <div class="form-header">
-            <h2 style="color:#d32f2f;">Report a Violation</h2>
-            <p>Help us keep NaijaBiz safe. Reports are anonymous.</p>
+    <div class="container">
+        <div class="report-container">
+            <h1 style="font-family:'Outfit'; margin-top:0;">Report a Vendor</h1>
+            <p style="color:#64748b; margin-bottom:30px;">Help us keep NaijaBiz safe. If you've encountered a scam or prohibited activity, let us know.</p>
+
+            <div class="warning-box">
+                <b>Note:</b> If this is an emergency or theft involving real-world harm, please contact the Nigerian Police Force immediately.
+            </div>
+
+            <form id="reportForm">
+                <div class="form-group">
+                    <label>Vendor Business Name</label>
+                    <input type="text" id="reportedVendor" placeholder="Enter the shop name exactly" required class="input-field">
+                </div>
+
+                <div class="form-group">
+                    <label>Reason for Report</label>
+                    <select id="reportReason" class="input-field" required>
+                        <option value="">Select a reason...</option>
+                        <option value="scam">Fraud or Scam Attempt</option>
+                        <option value="fake">Selling Fake/Counterfeit Items</option>
+                        <option value="harassment">Harassment or Abuse</option>
+                        <option value="other">Other Violation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Detailed Explanation</label>
+                    <textarea id="reportDetails" rows="5" placeholder="Describe what happened in detail..." required class="input-field"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Email (For follow-up)</label>
+                    <input type="email" id="reporterEmail" placeholder="How can we reach you?" required class="input-field">
+                </div>
+
+                <button type="submit" id="submitReportBtn" class="btn-primary" style="width:100%; padding:15px; font-size:1rem;">Submit Report for Review</button>
+            </form>
         </div>
-
-        <form action="https://formsubmit.co/akintundetunmise001@gmail.com" method="POST">
-            
-            <input type="hidden" name="_next" value="https://akintundetunmise.github.io/naijabiz/pages/explore.html">
-            <input type="hidden" name="_subject" value="New Vendor Report - NaijaBiz">
-            
-            <input type="hidden" name="_captcha" value="false">
-
-            <div class="form-group">
-                <label>Name of Business/Vendor</label>
-                <input type="text" name="Business Name" placeholder="e.g. Lagos Tech Hub" required>
-            </div>
-
-            <div class="form-group">
-                <label>Reason for Report</label>
-                <select name="Reason" required>
-                    <option value="" disabled selected>Select a reason</option>
-                    <option value="Scam">Scam / Fraud</option>
-                    <option value="Fake Products">Fake Products</option>
-                    <option value="Rude Behavior">Rude Behavior</option>
-                    <option value="Inappropriate Content">Inappropriate Content</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Details</label>
-                <textarea name="Details" rows="4" placeholder="Explain what happened..." required></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit" style="background-color: #d32f2f;">Submit Report</button>
-        </form>
     </div>
 
-    <footer class="main-footer">
-        <div class="container footer-grid">
-            
+    <footer class="main-footer" style="background: #0f172a; color: white; padding: 60px 0; margin-top: 100px;">
+        <div class="container footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
             <div class="footer-col">
-                <a href="../index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
-                <p>The #1 trusted marketplace for verified Nigerian businesses.</p>
+                <a href="../index.html" class="footer-logo" style="color:white; font-size:1.5rem; text-decoration:none;">Naija<span class="highlight">Biz</span></a>
+                <p style="color: #94a3b8; margin-top: 10px;">The #1 trusted marketplace.</p>
             </div>
-
             <div class="footer-col">
                 <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="explore.html">Explore Market</a></li>
-                    <li><a href="register.html">Register Business</a></li>
-                    <li><a href="dashboard.html">My Dashboard</a></li>
+                <ul id="footerNav" style="list-style:none; padding:0; line-height:2;">
+                    <li><a href="../index.html" style="color:#94a3b8; text-decoration:none;">Home</a></li>
+                    <li id="dynamicFooterLink"><a href="register.html" style="color:#94a3b8; text-decoration:none;">Register</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Support</h4>
-                <ul>
-                    <li><a href="help.html">Help Center</a></li>
-                    <li><a href="safety.html">Safety Tips</a></li>
-                    <li><a href="report.html">Report a Vendor</a></li>
-                    <li><a href="terms.html">Terms of Service</a></li>
+                <ul style="list-style:none; padding:0; line-height:2;">
+                    <li><a href="safety.html" style="color:#94a3b8; text-decoration:none;">Safety Tips</a></li>
+                    <li><a href="privacy.html" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
-                <h4>Follow Us</h4>
-                <div class="social-links">
-                    <a href="#">TikTok</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                </div>
-                <p class="copyright">&copy; 2026 NaijaBiz Inc.</p>
+                <p class="copyright" style="color: #64748b; font-size: 0.8rem; margin-top: 40px;">
+                    <a href="admin-login.html" style="text-decoration: none; color: inherit; cursor: default;">.</a> 
+                    &copy; 2026 NaijaBiz Inc.
+                </p>
             </div>
-
         </div>
     </footer>
 
+    <script type="module">
+        import { db } from '../js/firebase-init.js';
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // HEADER/FOOTER LOGIC
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!user) {
+            document.getElementById('navBtn').textContent = "Join as Vendor";
+            document.getElementById('navBtn').href = "register.html";
+        } else {
+            document.getElementById('dynamicFooterLink').innerHTML = `<a href="dashboard.html" style="color:#94a3b8; text-decoration:none;">My Dashboard</a>`;
+        }
+
+        // REPORT SUBMISSION
+        document.getElementById('reportForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitReportBtn');
+            btn.textContent = "Sending Report...";
+            btn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "reports"), {
+                    vendorName: document.getElementById('reportedVendor').value,
+                    reason: document.getElementById('reportReason').value,
+                    details: document.getElementById('reportDetails').value,
+                    reporterEmail: document.getElementById('reporterEmail').value,
+                    timestamp: new Date().toISOString(),
+                    status: "Pending"
+                });
+
+                alert("Thank you. Your report has been submitted and our team will investigate.");
+                window.location.href = "../index.html";
+            } catch (err) {
+                alert("Error submitting report. Please try again.");
+                btn.disabled = false;
+                btn.textContent = "Submit Report for Review";
+            }
+        });
+    </script>
 </body>
 </html>
