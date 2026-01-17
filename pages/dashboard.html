@@ -12,174 +12,250 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+        .content-wrapper { flex: 1; }
         .dash-header { background: #0f172a; color: white; padding: 40px 0; }
         .dash-nav { background: white; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
         .dash-nav ul { display: flex; list-style: none; padding: 0; margin: 0; }
         .dash-nav li { margin-right: 20px; }
         .dash-nav a { display: block; padding: 15px 5px; color: #64748b; text-decoration: none; font-weight: 600; border-bottom: 3px solid transparent; cursor: pointer; }
-        .dash-nav a.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .dash-nav a.active { color: #008751; border-bottom-color: #008751; }
         .tab-content { display: none; padding: 40px 0; }
         .tab-content.active { display: block; }
+        
+        /* UPLOAD BOX STYLE */
+        .upload-area {
+            border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px;
+            text-align: center; cursor: pointer; background: #f8fafc; transition: 0.2s;
+        }
+        .upload-area:hover { border-color: #008751; background: #f0fdf4; }
+        
         .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
         .plan-card { background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 25px; text-align: center; }
         .plan-card.active-plan { border-color: #008751; background: #f0fdf4; }
         .btn-upgrade { width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; color: white; }
+        
         .product-item { display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 12px; }
         .product-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 15px; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="container nav-flex">
-            <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
-            <ul class="nav-links">
-                <li><button onclick="logout()" style="background:none; border:none; color:red; cursor:pointer; font-weight:600;">Logout</button></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="content-wrapper">
+        <nav class="navbar">
+            <div class="container nav-flex">
+                <a href="../index.html" class="logo">Naija<span class="highlight">Biz</span></a>
+                <ul class="nav-links">
+                    <li><button onclick="logoutUser()" style="background:none; border:none; color:red; cursor:pointer; font-weight:600;">Logout</button></li>
+                </ul>
+            </div>
+        </nav>
 
-    <header class="dash-header">
-        <div class="container">
-            <h1 id="shopNameDisplay">Dashboard</h1>
-            <p id="tierDisplay" style="color:#fbbf24; font-weight:bold;">Loading Tier...</p>
-        </div>
-    </header>
+        <header class="dash-header">
+            <div class="container">
+                <h1 id="shopNameDisplay">Dashboard</h1>
+                <p id="tierDisplay" style="color:#fbbf24; font-weight:bold;">Loading...</p>
+            </div>
+        </header>
 
-    <div class="dash-nav">
-        <div class="container">
-            <ul>
-                <li><a onclick="switchTab('products')" id="tab-products" class="active">Inventory</a></li>
-                <li><a onclick="switchTab('settings')" id="tab-settings">Upgrade & Settings</a></li>
-                <li><a id="viewShopBtn" href="#" target="_blank">View Shop ↗</a></li>
-            </ul>
+        <div class="dash-nav">
+            <div class="container">
+                <ul>
+                    <li><a onclick="switchTab('products')" id="tab-products" class="active">Inventory</a></li>
+                    <li><a onclick="switchTab('settings')" id="tab-settings">Upgrade & Settings</a></li>
+                    <li><a id="viewShopBtn" href="#" target="_blank">View Shop ↗</a></li>
+                </ul>
+            </div>
         </div>
+
+        <section id="products" class="container tab-content active">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+                <h2>Your Products</h2>
+                <button onclick="toggleAddForm()" class="btn-primary">+ Add Product</button>
+            </div>
+            <div id="addProductForm" style="display:none; background:white; padding:30px; border-radius:15px; margin-bottom:30px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+                <form id="productForm">
+                    <input type="text" id="prodName" placeholder="Product Name" required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;">
+                    <input type="number" id="prodPrice" placeholder="Price (₦)" required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;">
+                    <textarea id="prodDesc" placeholder="Description..." required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;"></textarea>
+                    <input type="file" id="prodImageFile" accept="image/*" required>
+                    <button type="submit" id="addProdBtn" class="btn-primary" style="width:100%; margin-top:15px;">Save Product</button>
+                </form>
+            </div>
+            <div id="productList">Loading inventory...</div>
+        </section>
+
+        <section id="settings" class="container tab-content">
+            <h2>Upgrade Your Plan</h2>
+            <div class="plans-grid">
+                <div class="plan-card" id="plan-basic">
+                    <h3>New Seller</h3>
+                    <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">Free</div>
+                    <button disabled style="background:#ddd;" class="btn-upgrade">Active</button>
+                </div>
+                <div class="plan-card" id="plan-verified">
+                    <h3 style="color:#3b82f6;">Verified (Blue)</h3>
+                    <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">₦5,000</div>
+                    <button type="button" onclick="startPaystack('verified', 5000)" class="btn-upgrade" style="background:#3b82f6;">Upgrade Now</button>
+                </div>
+                <div class="plan-card" id="plan-premium">
+                    <h3 style="color:#b45309;">Premium (Gold)</h3>
+                    <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">₦15,000</div>
+                    <button type="button" onclick="startPaystack('premium', 15000)" class="btn-upgrade" style="background:#fbbf24; color:#0f172a;">Upgrade Now</button>
+                </div>
+            </div>
+
+            <h2 style="margin-top:60px;">Shop Appearance</h2>
+            <p style="color:#64748b; margin-bottom:20px;">Upload a professional banner for your shop profile.</p>
+            <div style="background:white; padding:30px; border-radius:15px; border:1px solid #e2e8f0;">
+                <label style="font-weight:600; display:block; margin-bottom:15px;">Cinematic Banner Image</label>
+                <div class="upload-area" onclick="document.getElementById('coverImageFile').click()">
+                    <span id="coverStatusText">📸 Click to upload new banner</span>
+                    <input type="file" id="coverImageFile" accept="image/*" style="display:none;" onchange="uploadCoverImage(this)">
+                </div>
+            </div>
+        </section>
     </div>
 
-    <section id="products" class="container tab-content active">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-            <h2>Your Products</h2>
-            <button onclick="toggleAddForm()" class="btn-primary">+ Add Product</button>
-        </div>
-        <div id="addProductForm" style="display:none; background:white; padding:30px; border-radius:15px; margin-bottom:30px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
-            <form id="productForm">
-                <input type="text" id="prodName" placeholder="Product Name" required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;">
-                <input type="number" id="prodPrice" placeholder="Price (₦)" required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;">
-                <textarea id="prodDesc" placeholder="Description..." required style="width:100%; margin-bottom:15px; padding:12px; border:1px solid #ddd; border-radius:8px;"></textarea>
-                <input type="file" id="prodImageFile" accept="image/*" required style="margin-bottom:15px;">
-                <button type="submit" id="addProdBtn" class="btn-primary" style="width:100%;">Save Product</button>
-            </form>
-        </div>
-        <div id="productList">Loading...</div>
-    </section>
-
-    <section id="settings" class="container tab-content">
-        <h2>Upgrade Your Plan</h2>
-        <div class="plans-grid">
-            <div class="plan-card" id="plan-basic">
-                <h3>New Seller</h3>
-                <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">Free</div>
-                <button disabled style="background:#ddd; cursor:not-allowed;" class="btn-upgrade">Active</button>
+    <footer class="main-footer" style="background: #0f172a; color: white; padding: 40px 0; margin-top: 60px;">
+        <div class="container footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+            <div class="footer-col">
+                <a href="../index.html" class="logo" style="color:white; font-size:1.2rem; text-decoration:none; font-weight:800;">Naija<span class="highlight" style="color:#008751;">Biz</span></a>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 10px;">Your trusted Nigerian business directory.</p>
             </div>
-
-            <div class="plan-card" id="plan-verified">
-                <h3 style="color:#3b82f6;">Verified (Blue)</h3>
-                <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">₦5,000</div>
-                <button onclick="payWithPaystack('verified', 5000)" class="btn-upgrade" style="background:#3b82f6;">Upgrade Now</button>
+            <div class="footer-col">
+                <h4 style="margin-bottom: 15px; font-size: 1rem;">Quick Links</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: #94a3b8; line-height: 2;">
+                    <li><a href="../index.html" style="color:inherit; text-decoration:none;">Home</a></li>
+                    <li><a href="explore.html" style="color:inherit; text-decoration:none;">Explore Market</a></li>
+                    <li><a href="dashboard.html" style="color:inherit; text-decoration:none;">My Dashboard</a></li>
+                </ul>
             </div>
-
-            <div class="plan-card" id="plan-premium">
-                <h3 style="color:#b45309;">Premium (Gold)</h3>
-                <div style="font-size:1.5rem; font-weight:800; margin-bottom:20px;">₦15,000</div>
-                <button onclick="payWithPaystack('premium', 15000)" class="btn-upgrade" style="background:#fbbf24; color:#0f172a;">Upgrade Now</button>
+            <div class="footer-col">
+                <h4 style="margin-bottom: 15px; font-size: 1rem;">Support</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: #94a3b8; line-height: 2;">
+                    <li><a href="help.html" style="color:inherit; text-decoration:none;">Help Center</a></li>
+                    <li><a href="terms.html" style="color:inherit; text-decoration:none;">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 20px;">&copy; 2026 NaijaBiz. All Rights Reserved.</p>
             </div>
         </div>
+    </footer>
 
-        <h2 style="margin-top:40px;">Shop Settings</h2>
-        <form id="settingsForm" style="background:white; padding:25px; border-radius:15px; border:1px solid #e2e8f0;">
-            <label>Cover Image URL</label>
-            <input type="url" id="coverImage" placeholder="https://..." style="width:100%; margin:10px 0 20px 0; padding:12px; border:1px solid #ddd; border-radius:8px;">
-            <button type="submit" class="btn-primary">Save Settings</button>
-        </form>
-    </section>
+    <script>
+        const PAYSTACK_PK = "pk_test_14b30796d37168e54499686106ea5ec1932c4804";
+        const sessionUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        function startPaystack(plan, amount) {
+            if (typeof PaystackPop === 'undefined') { alert("Loading Paystack..."); return; }
+            const handler = PaystackPop.setup({
+                key: PAYSTACK_PK,
+                email: sessionUser.email || "vendor@naijabiz.com",
+                amount: amount * 100,
+                currency: "NGN",
+                callback: function(response) {
+                    window.dispatchEvent(new CustomEvent('paymentSuccess', { detail: { plan: plan } }));
+                }
+            });
+            handler.openIframe();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.dash-nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.getElementById('tab-'+tab).classList.add('active');
+        }
+
+        function toggleAddForm() {
+            const f = document.getElementById('addProductForm');
+            f.style.display = f.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function logoutUser() { localStorage.removeItem('loggedInUser'); window.location.href = '../index.html'; }
+    </script>
 
     <script type="module">
         import { db } from '../js/firebase-init.js';
         import { doc, getDoc, updateDoc, collection, addDoc, query, where, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- KEYS ---
-        const IMGBB_KEY = "531c5988d13afcc03247bc4ff85236af";
-        const PAYSTACK_PK = "pk_test_14b30796d37168e54499686106ea5ec1932c4804";
-
-        const sessionUser = JSON.parse(localStorage.getItem('loggedInUser'));
         if (!sessionUser) window.location.href = 'login.html';
         const userId = sessionUser.id;
+        const IMGBB_KEY = "531c5988d13afcc03247bc4ff85236af";
 
-        // --- PAYSTACK ATTACHMENT ---
-        // We attach it to 'window' so the onclick in the HTML can see it
-        window.payWithPaystack = function(planType, amount) {
-            console.log("Paystack Triggered for:", planType);
-            
-            // 1. Double check if Paystack library loaded
-            if (typeof PaystackPop === 'undefined') {
-                alert("Paystack is still loading. Please wait 3 seconds and try again.");
-                return;
-            }
+        // COVER IMAGE UPLOAD LOGIC
+        window.uploadCoverImage = async (input) => {
+            const file = input.files[0];
+            if (!file) return;
 
-            // 2. Open Paystack
-            let handler = PaystackPop.setup({
-                key: PAYSTACK_PK,
-                email: sessionUser.email || "user@naijabiz.com",
-                amount: amount * 100, // Kobo
-                currency: "NGN",
-                metadata: {
-                    custom_fields: [
-                        { display_name: "Plan Type", variable_name: "plan_type", value: planType },
-                        { display_name: "Vendor ID", variable_name: "vendor_id", value: userId }
-                    ]
-                },
-                callback: async function(response) {
-                    alert('Payment Successful! Reference: ' + response.reference);
-                    // Update Database
-                    const vendorRef = doc(db, "vendors", userId);
-                    await updateDoc(vendorRef, {
-                        verificationTier: planType,
-                        isVerified: true
-                    });
-                    location.reload();
-                },
-                onClose: function() {
-                    console.log('Window closed');
+            const statusText = document.getElementById('coverStatusText');
+            statusText.textContent = "⏳ Uploading banner...";
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+                const data = await res.json();
+                
+                if (data.success) {
+                    const newBannerUrl = data.data.url;
+                    await updateDoc(doc(db, "vendors", userId), { coverImage: newBannerUrl });
+                    statusText.textContent = "✅ Banner updated successfully!";
+                    setTimeout(() => statusText.textContent = "📸 Click to change banner", 3000);
                 }
-            });
-            handler.openIframe();
+            } catch (err) {
+                statusText.textContent = "❌ Upload failed. Try again.";
+            }
         };
 
-        // --- LOAD DATA ---
-        async function loadDashboard() {
+        window.addEventListener('paymentSuccess', async (e) => {
+            await updateDoc(doc(db, "vendors", userId), { verificationTier: e.detail.plan, isVerified: true });
+            location.reload();
+        });
+
+        async function loadData() {
             const docSnap = await getDoc(doc(db, "vendors", userId));
             if (docSnap.exists()) {
                 const data = docSnap.data();
                 const tier = data.verificationTier || 'basic';
                 document.getElementById('shopNameDisplay').textContent = data.name;
                 document.getElementById('tierDisplay').textContent = tier.toUpperCase() + " SELLER";
-                document.getElementById('coverImage').value = data.coverImage || '';
                 document.getElementById('viewShopBtn').href = `vendor-profile.html?id=${userId}`;
 
-                // Mark Active Plan
                 document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active-plan'));
-                const current = document.getElementById('plan-' + tier);
-                if(current) {
-                    current.classList.add('active-plan');
-                    current.querySelector('button').textContent = "Current Plan";
-                    current.querySelector('button').disabled = true;
-                    current.querySelector('button').style.background = "#ddd";
+                const activeCard = document.getElementById('plan-' + tier);
+                if(activeCard) {
+                    activeCard.classList.add('active-plan');
+                    activeCard.querySelector('button').textContent = "Current Plan";
+                    activeCard.querySelector('button').disabled = true;
                 }
             }
         }
 
-        // --- INVENTORY ---
+        document.getElementById('productForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('addProdBtn');
+            btn.textContent = "Saving...";
+            const file = document.getElementById('prodImageFile').files[0];
+            const formData = new FormData();
+            formData.append("image", file);
+            const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
+            const imgData = await res.json();
+            if(imgData.success) {
+                await addDoc(collection(db, "products"), {
+                    vendorId: userId,
+                    name: document.getElementById('prodName').value,
+                    price: document.getElementById('prodPrice').value,
+                    description: document.getElementById('prodDesc').value,
+                    image: imgData.data.url
+                });
+                location.reload();
+            }
+        };
+
         async function loadProducts() {
             const q = query(collection(db, "products"), where("vendorId", "==", userId));
             const snap = await getDocs(q);
@@ -191,44 +267,8 @@
             document.getElementById('productList').innerHTML = html || '<p>No products yet.</p>';
         }
 
-        // --- HANDLERS ---
-        document.getElementById('productForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('addProdBtn');
-            btn.textContent = "Uploading Image...";
-            btn.disabled = true;
-
-            const file = document.getElementById('prodImageFile').files[0];
-            const formData = new FormData();
-            formData.append("image", file);
-
-            try {
-                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
-                const imgData = await res.json();
-                if(imgData.success) {
-                    await addDoc(collection(db, "products"), {
-                        vendorId: userId,
-                        name: document.getElementById('prodName').value,
-                        price: document.getElementById('prodPrice').value,
-                        description: document.getElementById('prodDesc').value,
-                        image: imgData.data.url
-                    });
-                    location.reload();
-                }
-            } catch (err) { alert("Upload failed."); btn.disabled = false; }
-        };
-
-        window.deleteProduct = async (id) => { if(confirm("Delete product?")) { await deleteDoc(doc(db, "products", id)); location.reload(); } };
-        window.switchTab = (tab) => { 
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.dash-nav a').forEach(a => a.classList.remove('active'));
-            document.getElementById(tab).classList.add('active');
-            document.getElementById('tab-'+tab).classList.add('active');
-        };
-        window.toggleAddForm = () => { const f = document.getElementById('addProductForm'); f.style.display = f.style.display === 'none' ? 'block' : 'none'; };
-        window.logout = () => { localStorage.removeItem('loggedInUser'); window.location.href = '../index.html'; };
-
-        loadDashboard(); loadProducts();
+        window.deleteProduct = async (id) => { if(confirm("Delete?")) { await deleteDoc(doc(db, "products", id)); location.reload(); } };
+        loadData(); loadProducts();
     </script>
 </body>
 </html>
