@@ -13,11 +13,120 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Tightening the gaps specifically for the Home Page */
-        .home-section { padding: 40px 0; } /* Reduced from standard section-gap */
+        /* --- GLOBAL DEFAULTS --- */
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+        .home-section { padding: 60px 0; }
         .bg-offset { background-color: #f8fafc; }
-        .section-header { margin-bottom: 25px; }
-        .loading-text { color: #64748b; font-size: 0.9rem; }
+        .section-header { margin-bottom: 30px; }
+        .loading-text { color: #64748b; font-size: 0.9rem; text-align: center; width: 100%; display: block; padding: 20px; }
+        
+        /* HERO SETTINGS */
+        .hero {
+            position: relative;
+            width: 100%;
+            /* Desktop Padding */
+            padding-top: 80px;
+            padding-bottom: 80px;
+            background-color: #0f172a;
+        }
+
+        /* PREMIUM BACKGROUND DESIGN */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            /* 1. The Base Image */
+            background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            /* 2. The Premium Gradient Overlay */
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(0, 135, 81, 0.85) 100%);
+        }
+
+        /* 3. The "Mesh" Pattern (Makes it look expensive) */
+        .hero-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            background-image: radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 30px 30px; /* Tiny dots pattern */
+            opacity: 0.1;
+        }
+
+        .hero-content { position: relative; z-index: 3; width: 100%; }
+
+        /* --- MOBILE OPTIMIZATION (Max 768px) --- */
+        @media (max-width: 768px) {
+            
+            /* Navbar Lock */
+            .navbar .container { padding: 12px 15px !important; }
+            .nav-links li:not(:last-child) { display: none; }
+            .nav-links li:last-child { display: block; }
+            .nav-flex { justify-content: space-between; align-items: center; }
+            .logo { font-size: 1.3rem; }
+            .btn-primary { padding: 8px 14px; font-size: 0.8rem; }
+
+            /* Hero Spacing (The "Perfect" Placement) */
+            .hero {
+                padding-top: 50px !important;
+                padding-bottom: 50px !important;
+                min-height: 480px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 20px;
+            }
+
+            /* NEW: INTEGRATED MOBILE SEARCH BAR */
+            .search-box-wrapper { margin-top: 25px; }
+            
+            .search-box {
+                background: white;
+                border-radius: 50px; /* Pill shape */
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                position: relative;
+            }
+            
+            .search-box input {
+                border: none;
+                background: transparent;
+                padding: 12px 20px;
+                width: 100%;
+                font-size: 1rem;
+                outline: none;
+                margin: 0;
+            }
+
+            /* The Green Circle Icon Button */
+            .btn-search {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                background: #008751;
+                color: white;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                cursor: pointer;
+                flex-shrink: 0; /* Prevents button from squishing */
+                transition: 0.2s;
+            }
+            .btn-search span { display: none; } /* Hide text "Search" */
+            .btn-search::after { content: "🔍"; } /* Show Icon */
+        }
     </style>
 </head>
 <body>
@@ -28,34 +137,32 @@
             <ul class="nav-links">
                 <li><a href="pages/explore.html">Explore Market</a></li>
                 <li><a href="pages/help.html">Help Center</a></li>
-                <li><a href="pages/register.html" id="navDynamicBtn" class="btn-primary">Register Business</a></li>
+                <li><a href="pages/register.html" id="navBtn" class="btn-primary">Register Business</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="hero-overlay">
-            <div class="container hero-content">
-                <span class="hero-badge">🚀 The #1 Marketplace in Nigeria</span>
-                <h1>Buy & Sell with <br><span class="text-gradient">Absolute Confidence</span></h1>
-                <p>Stop guessing. Start trading. We verify every vendor so you can shop without fear of scams.</p>
-                
-                <div class="search-box-wrapper">
-                    <div class="search-box">
-                        <input type="text" id="homeSearchInput" placeholder="Search for shoes, gadgets, services...">
-                        <button class="btn-search" onclick="handleSearch()">Search</button>
-                    </div>
+        <div class="hero-bg"></div>      <div class="hero-overlay"></div> <div class="hero-pattern"></div> <div class="container hero-content">
+            <span class="hero-badge">🚀 The #1 Marketplace in Nigeria</span>
+            <h1>Buy & Sell with <br><span class="text-gradient">Absolute Confidence</span></h1>
+            <p>Stop guessing. Start trading. We verify every vendor so you can shop without fear of scams.</p>
+            
+            <div class="search-box-wrapper">
+                <div class="search-box">
+                    <input type="text" id="homeSearchInput" placeholder="Find shoes, phones, services...">
+                    <button class="btn-search" onclick="handleSearch()"><span>Search</span></button>
                 </div>
+            </div>
 
-                <div class="trust-signals">
-                    <div class="signal">
-                        <span class="icon">🛡️</span>
-                        <span>100% Verified Vendors</span>
-                    </div>
-                    <div class="signal">
-                        <span class="icon">🎥</span>
-                        <span>Live Video Showcases</span>
-                    </div>
+            <div class="trust-signals">
+                <div class="signal">
+                    <span class="icon">🛡️</span>
+                    <span>100% Verified Vendors</span>
+                </div>
+                <div class="signal">
+                    <span class="icon">🎥</span>
+                    <span>Live Video Showcases</span>
                 </div>
             </div>
         </div>
@@ -115,7 +222,7 @@
                 </div>
             </div>
             <div id="newlyVerifiedGrid" class="business-grid">
-                <p class="loading-text">Loading Vendors...</p>
+                <span class="loading-text">Loading Vendors...</span>
             </div>
         </div>
     </section>
@@ -132,7 +239,7 @@
                 </div>
             </div>
             <div id="latestProductsGrid" class="business-grid">
-                <p class="loading-text">Loading Products...</p>
+                <span class="loading-text">Loading Products...</span>
             </div>
         </div>
     </section>
@@ -149,44 +256,20 @@
                 </div>
             </div>
             <div id="topRatedGrid" class="business-grid">
-                <p class="loading-text">Loading Vendors...</p>
+                <span class="loading-text">Loading Vendors...</span>
             </div>
         </div>
     </section>
 
-<section class="cta-section" id="dynamicCTA">
-    <div class="container cta-content">
-        <h2 id="ctaTitle">Ready to scale your business?</h2>
-        <p id="ctaDesc">Join thousands of Nigerian entrepreneurs reaching millions of customers.</p>
-        <a href="pages/register.html" id="ctaBtn" class="btn-primary">Register My Business</a>
-    </div>
-</section>
+    <section class="cta-section" id="dynamicCTA">
+        <div class="container cta-content">
+            <h2 id="ctaTitle">Ready to scale your business?</h2>
+            <p id="ctaDesc">Join thousands of Nigerian entrepreneurs reaching millions of customers.</p>
+            <a href="pages/register.html" id="ctaBtn" class="btn-primary">Register My Business</a>
+        </div>
+    </section>
 
-<script>
-    // CTA SESSION LOGIC
-    (function() {
-        const user = JSON.parse(localStorage.getItem('loggedInUser'));
-        const title = document.getElementById('ctaTitle');
-        const desc = document.getElementById('ctaDesc');
-        const btn = document.getElementById('ctaBtn');
-
-        if (user) {
-            // If the user is already a vendor
-            title.textContent = "Ready to make more sales?";
-            desc.textContent = "Your shop is live! Add more products to your catalog to attract more customers.";
-            btn.textContent = "Manage My Products";
-            btn.href = "pages/dashboard.html";
-        } else {
-            // Default for guests
-            title.textContent = "Ready to scale your business?";
-            desc.textContent = "Join thousands of Nigerian entrepreneurs reaching millions of customers.";
-            btn.textContent = "Register My Business";
-            btn.href = "pages/register.html";
-        }
-    })();
-</script>
-
-<footer class="main-footer">
+    <footer class="main-footer">
         <div class="container footer-grid">
             <div class="footer-col">
                 <a href="index.html" class="footer-logo">Naija<span class="highlight">Biz</span></a>
@@ -197,17 +280,16 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="pages/explore.html">Explore Market</a></li>
-                    <li><a href="pages/register.html">Register Business</a></li>
-                    <li><a href="pages/dashboard.html">My Dashboard</a></li>
+                    <li id="dynamicFooterLink"><a href="pages/register.html">Register Business</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="pages/help.html">Help Center</a></li>
                     <li><a href="pages/safety.html">Safety Tips</a></li>
-                    <li><a href="pages/report.html">Report a Vendor</a></li>
                     <li><a href="pages/terms.html">Terms of Service</a></li>
+                    <li><a href="pages/privacy.html">Privacy Policy</a></li> 
+                    <li><a href="pages/help.html">Help Center</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -224,24 +306,55 @@
         </div>
     </footer>
 
+    <script>
+        // --- MASTER SESSION CONTROLLER ---
+        (function() {
+            const user = JSON.parse(localStorage.getItem('loggedInUser'));
+            
+            // 1. NAV BUTTON
+            const navBtn = document.getElementById('navBtn');
+            // 2. CTA SECTION
+            const ctaTitle = document.getElementById('ctaTitle');
+            const ctaDesc = document.getElementById('ctaDesc');
+            const ctaBtn = document.getElementById('ctaBtn');
+            // 3. FOOTER LINK
+            const footerLink = document.getElementById('dynamicFooterLink');
+
+            if (user) {
+                // Logged In State
+                navBtn.textContent = "My Dashboard";
+                navBtn.href = "pages/dashboard.html";
+                
+                ctaTitle.textContent = "Ready to make more sales?";
+                ctaDesc.textContent = "Your shop is live! Add more products to attract customers.";
+                ctaBtn.textContent = "Manage My Products";
+                ctaBtn.href = "pages/dashboard.html";
+
+                footerLink.innerHTML = `<a href="pages/dashboard.html">My Dashboard</a>`;
+            } else {
+                // Guest State
+                navBtn.textContent = "Register Business";
+                navBtn.href = "pages/register.html";
+            }
+        })();
+
+        // --- SEARCH FUNCTION ---
+        function handleSearch() {
+            const query = document.getElementById('homeSearchInput').value;
+            if(query) window.location.href = "pages/explore.html?q=" + encodeURIComponent(query); 
+        }
+    </script>
+
     <script type="module">
         import { db } from './js/firebase-init.js';
-        import { collection, query, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { collection, query, limit, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-        if (currentUser) {
-            const navBtn = document.getElementById('navDynamicBtn');
-            navBtn.textContent = "My Dashboard";
-            navBtn.href = "pages/dashboard.html";
-            navBtn.style.backgroundColor = "#0f172a";
-        }
-
+        // HTML Generators
         function createCard(id, biz) {
             let badge = '';
             const tier = biz.verificationTier ? biz.verificationTier.toLowerCase() : 'basic';
             if (tier === 'premium') badge = '<span style="color:#fbbf24; margin-left:5px;">✔ (Gold)</span>';
-            else if (tier === 'verified') badge = '<span style="color:#1DA1F2; margin-left:5px;">✔ (Blue)</span>';
-            else badge = '<span style="color:#64748b; font-size:0.75rem; margin-left:5px;">(NEW)</span>';
+            else if (tier === 'verified') badge = '<span style="color:#3b82f6; margin-left:5px;">✔ (Blue)</span>';
 
             return `
             <div class="business-card">
@@ -249,51 +362,59 @@
                     <h3>${biz.name} ${badge}</h3>
                     <span>⭐ ${biz.rating || 5.0}</span>
                 </div>
-                <p>${biz.description.substring(0, 100)}...</p>
-                <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <a href="pages/vendor-profile.html?id=${id}" style="font-size:0.8rem; color:#008751; font-weight:bold;">Visit Shop</a>
-                    <a href="https://wa.me/234${biz.whatsapp}" target="_blank" class="btn-primary" style="padding:5px 15px; font-size:0.8rem;">Chat</a>
+                <p>${biz.description.substring(0, 80)}...</p>
+                <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
+                    <a href="pages/vendor-profile.html?id=${id}" style="font-size:0.85rem; color:#008751; font-weight:700; text-decoration:none;">Visit Shop</a>
+                    <a href="https://wa.me/234${biz.whatsapp}" target="_blank" class="btn-primary" style="padding:6px 14px; font-size:0.8rem;">Chat</a>
                 </div>
             </div>`;
         }
 
         function createProductCard(p) {
             return `
-            <div class="business-card">
-                <div style="height:140px; background:#f1f5f9; border-radius:8px; overflow:hidden; margin-bottom:10px;">
+            <div class="business-card" style="padding:10px;">
+                <div style="height:160px; background:#f1f5f9; border-radius:8px; overflow:hidden; margin-bottom:10px;">
                     <img src="${p.image}" style="width:100%; height:100%; object-fit:cover;">
                 </div>
-                <div class="card-header">
-                    <h3 style="font-size:1rem;">${p.name}</h3>
-                    <span style="color:#008751; font-weight:bold;">₦${p.price}</span>
+                <div class="card-header" style="margin-bottom:5px;">
+                    <h3 style="font-size:0.95rem; margin:0;">${p.name}</h3>
+                    <span style="color:#008751; font-weight:800;">₦${Number(p.price).toLocaleString()}</span>
                 </div>
-                <div style="margin-top:10px;">
-                    <a href="pages/vendor-profile.html?id=${p.vendorId}" class="btn-primary" style="display:block; text-align:center; font-size:0.8rem; padding:8px;">View Seller</a>
-                </div>
+                <a href="pages/vendor-profile.html?id=${p.vendorId}" class="btn-primary" style="display:block; text-align:center; font-size:0.8rem; padding:8px; width:100%; margin-top:10px;">View Seller</a>
             </div>`;
         }
 
+        // Data Fetcher
         async function loadHomeData() {
             try {
+                // Top 3 Vendors
                 const snapNew = await getDocs(query(collection(db, "vendors"), limit(3)));
                 const newGrid = document.getElementById('newlyVerifiedGrid');
-                newGrid.innerHTML = ''; snapNew.forEach(doc => newGrid.innerHTML += createCard(doc.id, doc.data()));
+                if(!snapNew.empty) {
+                    newGrid.innerHTML = ''; 
+                    snapNew.forEach(doc => newGrid.innerHTML += createCard(doc.id, doc.data()));
+                } else { newGrid.innerHTML = '<span class="loading-text">No vendors yet.</span>'; }
 
+                // Top 3 Products
                 const snapProd = await getDocs(query(collection(db, "products"), limit(3)));
                 const prodGrid = document.getElementById('latestProductsGrid');
-                prodGrid.innerHTML = ''; snapProd.forEach(doc => prodGrid.innerHTML += createProductCard(doc.data()));
+                if(!snapProd.empty) {
+                    prodGrid.innerHTML = ''; 
+                    snapProd.forEach(doc => prodGrid.innerHTML += createProductCard(doc.data()));
+                } else { prodGrid.innerHTML = '<span class="loading-text">No products added yet.</span>'; }
 
+                // Top Rated Vendors
                 const snapRated = await getDocs(query(collection(db, "vendors"), limit(3)));
                 const ratedGrid = document.getElementById('topRatedGrid');
-                ratedGrid.innerHTML = ''; snapRated.forEach(doc => ratedGrid.innerHTML += createCard(doc.id, doc.data()));
+                if(!snapRated.empty) {
+                    ratedGrid.innerHTML = ''; 
+                    snapRated.forEach(doc => ratedGrid.innerHTML += createCard(doc.id, doc.data()));
+                } else { ratedGrid.innerHTML = '<span class="loading-text">No vendors yet.</span>'; }
+
             } catch (err) { console.error(err); }
         }
 
         loadHomeData();
-        window.handleSearch = function() {
-            const query = document.getElementById('homeSearchInput').value;
-            if(query) window.location.href = "pages/explore.html?q=" + encodeURIComponent(query); 
-        }
     </script>
 </body>
 </html>

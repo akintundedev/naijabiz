@@ -387,3 +387,31 @@ ul { list-style: none; }
     margin-top: 30px;
     font-size: 0.85rem;
 }
+/* --- MOBILE HEADER OPTIMIZATION --- */
+@media (max-width: 768px) {
+    /* Tighten the container padding */
+    .navbar .container {
+        padding: 0 15px;
+    }
+
+    /* Hide standard text links (Home, Explore, etc.) on mobile */
+    .nav-links li {
+        display: none;
+    }
+
+    /* ONLY show the last item (The Button) */
+    .nav-links li:last-child {
+        display: block;
+    }
+
+    /* Ensure the logo and button are on opposite sides */
+    .nav-flex {
+        justify-content: space-between;
+    }
+
+    /* Make the button slightly smaller for mobile screens */
+    .btn-primary {
+        padding: 10px 18px;
+        font-size: 0.85rem;
+    }
+}
